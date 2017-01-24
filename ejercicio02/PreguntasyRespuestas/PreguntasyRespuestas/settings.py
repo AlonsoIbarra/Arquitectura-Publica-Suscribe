@@ -68,6 +68,8 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATES_DIR = ["/home/gustavo/Ejercicios_Python/ejercicio02/PreguntasyRespuestas/app01/templates"]
+
 WSGI_APPLICATION = 'PreguntasyRespuestas.wsgi.application'
 
 

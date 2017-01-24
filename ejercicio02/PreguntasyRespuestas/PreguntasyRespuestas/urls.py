@@ -19,6 +19,6 @@ from app01.views import index, pregunta_detalle
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^preguntas/$', index),
-    url(r'^preguntas/(?P<pregunta_id>\d+)/$', pregunta_detalle),
+    url(r'^preguntas/$', index, name="pregunta"),
+    url(r'^preguntas/(?P<pregunta_id>\d+)/$', pregunta_detalle, name="pregunta_detalle"),
 ]
