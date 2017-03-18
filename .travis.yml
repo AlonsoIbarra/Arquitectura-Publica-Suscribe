@@ -4,8 +4,8 @@ python:
 before_install:
  - sudo apt-get -qq update
 install:
- - apt-get install erlang erlang-doc
- - apt-get install rabbitmq-server
+ - sudo apt-get install erlang erlang-doc
+ - sudo apt-get install rabbitmq-server
  - pip install flake8 autopep8
  - pip install pika
 script:
