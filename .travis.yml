@@ -1,0 +1,13 @@
+language: python
+python:
+  - "2.7"
+before_install:
+ - sudo apt-get -qq update
+install:
+ - apt-get install erlang erlang-doc
+ - apt-get install rabbitmq-server
+ - pip install flake8 autopep8
+ - pip install pika
+script:
+  - flake8 --max-line-length=160 --exclude *.pyc ./
+  - python tests.py
