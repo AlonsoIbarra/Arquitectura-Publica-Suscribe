@@ -9,5 +9,5 @@ install:
  - pip install flake8 autopep8
  - pip install pika
 script:
-  - flake8 --max-line-length=160 --exclude *.pyc ./
+  - flake8 --max-line-length=160 --exclude=*.pyc *.py
   - python tests.py
