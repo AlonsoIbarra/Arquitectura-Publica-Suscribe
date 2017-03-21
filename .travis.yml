@@ -8,6 +8,11 @@ install:
  - sudo apt-get install rabbitmq-server
  - pip install flake8 autopep8
  - pip install pika
+ - pip install Django==1.8.16
+ - pip install gunicorn==19.6.0
 script:
-  - flake8 --max-line-length=160 --exclude=*.pyc *.py
-  - python tests.py
+  #- python -m compileall ./practicas/
+  #- python -m doctest ./practicas/python_lab.py
+ - python manage.py test
+ - flake8 --max-line-length=160 --exclude=*.pyc *.py
+ - python tests.py
