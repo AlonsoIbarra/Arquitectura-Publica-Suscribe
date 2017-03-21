@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-#--------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
 # Archivo: SensorRitmoCardiaco.py
 # Capitulo: 3 Estilo Publica-Subscribe
 # Autor(es): Perla Velasco & Yonathan Mtz.
@@ -12,7 +11,7 @@
 #   específica.
 #   Las características de ésta clase son las siguientes:
 #
-#                                      SensorRitmoCardiaco.py 
+#                            SensorRitmoCardiaco.py
 #           +-----------------------+-------------------------+------------------------+
 #           |  Nombre del elemento  |     Responsabilidad     |      Propiedades       |
 #           +-----------------------+-------------------------+------------------------+
@@ -61,9 +60,9 @@
 #            de utilizarlos y para evitar la sobrecarga de información se han omitido sus
 #            detalles. Para más información acerca del funcionamiento interno de RabbitMQ
 #            puedes visitar: https://www.rabbitmq.com/
-#            
 #
-#--------------------------------------------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------------------------
 
 import pika
 import random
@@ -104,7 +103,7 @@ class SensorRitmoCardiaco:
         channel.basic_publish(exchange='direct_rhythm',
                               routing_key=severity, body=mensaje)
         print('+---------------+--------------------+-------------------------------+-------+')
-        print('|      ' + str(self.id) +'     |     ' + self.nombre +'     |    RITMO CARDIACO ENVIADO     |  ' + str(ritmo_cardiaco_generado) + '  |')
+        print('|      ' + str(self.id) + '     |     ' + self.nombre + '     |    RITMO CARDIACO ENVIADO     |  ' + str(ritmo_cardiaco_generado) + '  |')
         print('+---------------+--------------------+-------------------------------+-------+')
         print('')
         connection.close()

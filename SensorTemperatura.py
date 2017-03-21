@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-#--------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
 # Archivo: SensorTemperatura.py
 # Capitulo: 3 Estilo Publica-Subscribe
 # Autor(es): Perla Velasco & Yonathan Mtz.
@@ -61,9 +60,10 @@
 #            de utilizarlos y para evitar la sobrecarga de información se han omitido sus
 #            detalles. Para más información acerca del funcionamiento interno de RabbitMQ
 #            puedes visitar: https://www.rabbitmq.com/
-#            
 #
-#--------------------------------------------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------------------------
+
 
 import random
 import pika
@@ -104,7 +104,7 @@ class SensorTemperatura():
         channel.basic_publish(exchange='direct_temperature',
                               routing_key=severity, body=mensaje)
         print('+---------------+--------------------+-------------------------------+-------+')
-        print('|      ' + str(self.id) +'     |     ' + self.nombre +'     |      TEMPERATURA ENVIADA      |  ' + str(temperatura_generada) + '  |')
+        print('|      ' + str(self.id) + '     |     ' + self.nombre + '     |      TEMPERATURA ENVIADA      |  ' + str(temperatura_generada) + '  |')
         print('+---------------+--------------------+-------------------------------+-------+')
         print('')
         connection.close()

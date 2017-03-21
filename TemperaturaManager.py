@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-#--------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
 # Archivo: TemperaturaManager.py
 # Capitulo: 3 Estilo Publica-Subscribe
 # Autor(es): Perla Velasco & Yonathan Mtz.
@@ -68,9 +67,9 @@
 #            de utilizarlos y para evitar la sobrecarga de información se han omitido sus
 #            detalles. Para más información acerca del funcionamiento interno de RabbitMQ
 #            puedes visitar: https://www.rabbitmq.com/
-#            
 #
-#--------------------------------------------------------------------------------------------------
+#
+# --------------------------------------------------------------------------------------------------
 
 import pika
 import sys
@@ -104,9 +103,8 @@ class TemperaturaManager:
         severity = 'temperatura'
         #   +----------------------------------------------------------------------------+
         #   | La siguiente linea permite realizar la conexión con la cola que se definio |
-        #   +----------------------------------------------------------------------------+        
-        channel.queue_bind(exchange='direct_temperature',
-                            queue=queue_name, routing_key=severity)
+        #   +----------------------------------------------------------------------------+
+        channel.queue_bind(exchange='direct_temperature', queue=queue_name, routing_key=severity)
         print(' [*] Inicio de monitoreo de temperatura. Presiona CTRL+C para finalizar el monitoreo')
         #   +----------------------------------------------------------------------------------------+
         #   | La siguiente linea permite definir las acciones que se realizarán al ocurrir un método |
@@ -126,6 +124,7 @@ class TemperaturaManager:
             monitor.print_notification('+----------+-----------------------+----------+')
             monitor.print_notification('')
             monitor.print_notification('')
+
 
 test = TemperaturaManager()
 test.start_consuming()

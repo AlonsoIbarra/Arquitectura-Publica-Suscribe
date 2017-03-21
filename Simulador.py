@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#--------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
 # Archivo: Simulador.py
 # Capitulo: 3 Estilo Publica-Subscribe
 # Autor(es): Perla Velasco & Yonathan Mtz.
@@ -70,11 +70,10 @@
 #           |                         |                          |    sensores.          |
 #           +-------------------------+--------------------------+-----------------------+
 #
-#--------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
 
 import os
 import time
-import pika
 from SensorTemperatura import SensorTemperatura
 from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
@@ -121,7 +120,7 @@ class SetUpSimulador:
         print('+---------------------------------------------+')
         publishers = raw_input('número entero: ')
         print('+---------------------------------------------+')
-        print('|        Número de publicadores         |  ' + publishers +  '  |')
+        print('|        Número de publicadores         |  ' + publishers + '  |')
         print('+---------------------------------------------+')
         print('|            ASIGNACIÓN DE SENSORES           |')
         print('+---------------------------------------------+')
@@ -130,13 +129,13 @@ class SetUpSimulador:
         print('')
         for x in xrange(0, int(publishers)):
             print('+---------------------------------------------+')
-            print('|            DATOS DEL ADULTO MAYOR |    ' + str(x) +  '    |')
+            print('|            DATOS DEL ADULTO MAYOR |    ' + str(x) + '    |')
             print('+---------------------------------------------+')
             print('|           NOMBRE           |        ?       |')
             print('+---------------------------------------------+')
             nombre = raw_input('escribe el nombre: ')
             print('+---------------------------------------------+')
-            print('|           NOMBRE           | ' + nombre +' |')
+            print('|           NOMBRE           | ' + nombre + ' |')
             print('+---------------------------------------------+')
             self.create_temperature_sensor(nombre)
             print('|     SENSOR TEMPERATURA     |    ASIGNADO   |')
@@ -164,7 +163,7 @@ class SetUpSimulador:
         ritmo_maximo = raw_input('ritmo máximo: ')
         self.ritmo_cardiaco = int(ritmo_maximo)
         print('+---------------------------------------------+')
-        print('|       RITMO CARDIACO       |      ' + ritmo_maximo +'       |')
+        print('|       RITMO CARDIACO       |      ' + ritmo_maximo + '       |')
         print('+---------------------------------------------+')
         print('|      PRESION ARTERIAL      |        ?       |')
         print('+---------------------------------------------+')
@@ -194,7 +193,7 @@ class SetUpSimulador:
         self.sensores.append(s)
 
     def run_simulator(self):
-        #self.start_consumers()
+        self.start_consumers()
         self.start_publishers()
 
     def start_consumers(self):
@@ -210,6 +209,7 @@ class SetUpSimulador:
             for s in self.sensores:
                 s.start_service()
                 time.sleep(1.0)
+
 
 if __name__ == '__main__':
     simulador = SetUpSimulador()
