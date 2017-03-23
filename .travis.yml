@@ -14,5 +14,5 @@ script:
   #- python -m compileall ./practicas/
   #- python -m doctest ./practicas/python_lab.py
  #- python manage.py test
- - flake8 --max-line-length=160 --exclude=*.pyc *.py
+ - flake8 --max-line-length=230 --exclude=*.pyc *.py
  - python tests.py
