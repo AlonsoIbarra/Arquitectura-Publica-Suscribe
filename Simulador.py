@@ -73,10 +73,10 @@
 # --------------------------------------------------------------------------------------------------
 
 import os
-import time
 from SensorTemperatura import SensorTemperatura
 from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
+from SensorAcelerometro import SensorAcelerometro
 
 
 class SetUpSimulador:
@@ -109,6 +109,11 @@ class SetUpSimulador:
         print('|                      |     va del ritmo de  |')
         print('|                      |     los latidos del  |')
         print('|                      |     corazón.         |')
+        print('+----------------------+----------------------+')
+        print('|     Caida            |   - la posicion de   |')
+        print('|                      |     orizontal es     |')
+        print('|                      |     correspondiente  |')
+        print('|                      |     a una caida      |')
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
@@ -146,7 +151,11 @@ class SetUpSimulador:
             self.create_heart_rate_sensor(nombre)
             print('|    SENSOR RITMO CARDIACO   |    ASIGNADO   |')
             print('+---------------------------------------------+')
+            self.create_acelerometer(nombre)
+            print('|       SENSOR ACELEROMETRO       |    ASIGNADO   |')
+            print('+---------------------------------------------+')
             print('')
+
             raw_input('presiona enter para continuar: ')
         print('+---------------------------------------------+')
         print('|        VALORES MÁXIMOS DE LOS EVENTOS       |')
@@ -196,6 +205,10 @@ class SetUpSimulador:
         self.start_consumers()
         self.start_publishers()
 
+    def create_acelerometer(self, nombre):
+        s = SensorAcelerometro(nombre)
+        self.sensores.append(s)
+
     def start_consumers(self):
         os.system(
             "gnome-terminal -e 'bash -c \"python TemperaturaManager.py " + str(self.temperatura) + "; sleep 5 \"'")
@@ -203,12 +216,13 @@ class SetUpSimulador:
             "gnome-terminal -e 'bash -c \"python RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
         os.system(
             "gnome-terminal -e 'bash -c \"python PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
+        os.system(
+            "gnome-terminal -e 'bash -c \"python AcelerometroManager.py ; sleep 5 \"'")
 
     def start_publishers(self):
         for x in xrange(0, 1000):
             for s in self.sensores:
                 s.start_service()
-                time.sleep(1.0)
 
 
 if __name__ == '__main__':

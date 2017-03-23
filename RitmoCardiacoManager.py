@@ -105,7 +105,7 @@ class RitmoCardiacoManager:
         #   | La siguiente linea permite realizar la conexión con la cola que se definio |
         #   +----------------------------------------------------------------------------+
         channel.queue_bind(exchange='direct_rhythm', queue=queue_name, routing_key=severity)
-        print(' [*] Inicio de monitoreo. Presiona CTRL+C para finalizar monitoreo')
+        print(' [*] Inicio de monitoreo de ritmo cardiaco. Presiona CTRL+C para finalizar monitoreo')
         #   +----------------------------------------------------------------------------------------+
         #   | La siguiente linea permite definir las acciones que se realizarán al ocurrir un método |
         #   +----------------------------------------------------------------------------------------+
