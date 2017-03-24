@@ -77,6 +77,8 @@ from SensorTemperatura import SensorTemperatura
 from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
 from SensorAcelerometro import SensorAcelerometro
+import getpass
+import hashlib
 # import sqlite3
 
 
@@ -127,6 +129,48 @@ class SetUpSimulador:
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
+        self.login()
+
+    def login(self):
+        print('+---------------------------------------------+')
+        print('|                  Login                      |')
+        print('+---------------------------------------------+')
+        print('')
+        usuario = raw_input("Ingrese Nombre de Usuario: ")
+        pswd = getpass.getpass('Password:')
+        user = self.getUser(usuario)
+        if hashlib.sha224(pswd).hexdigest() == user[3]:
+            if(int(user[2]) == 0):
+                self.menuAdministrador()
+            else:
+                self.menuUsuario()
+
+    def getUser(self, usuario):
+        return (1, 'usuario', 0, '147ad31215fd55112ce613a7883902bb306aa35bba879cd2dbe500b9')
+
+    def menuUsuario(self):
+        while True:
+            os.system('clear')
+            print('')
+            print('+---------------------------------------------+')
+            print('|                 MENÚ INICIAL                |')
+            print('+---------------------------------------------+')
+            print('|  1.-  INICIAR SIMULACIÓN                    |')
+            print('+---------------------------------------------+')
+            print('|  2.-  SALIR DE SIMULADOR                    |')
+            print('+---------------------------------------------+')
+            op = self.readInt("Ingrese opción: ")
+            if op == 1:
+                print "iniciando simulación..."
+                self.iniciarSimulacion()
+            elif op == 2:
+                print "saliendo..."
+                os.system('clear')
+                break
+            else:
+                pass
+
+    def menuAdministrador(self):
         while True:
             os.system('clear')
             print('')
