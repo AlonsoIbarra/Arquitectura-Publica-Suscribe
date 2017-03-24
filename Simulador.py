@@ -77,6 +77,7 @@ from SensorTemperatura import SensorTemperatura
 from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
 from SensorAcelerometro import SensorAcelerometro
+# import sqlite3
 
 
 class SetUpSimulador:
@@ -85,12 +86,21 @@ class SetUpSimulador:
     ritmo_cardiaco = 0
     presion = 0
 
+    def readInt(self, msg):
+        try:
+            return int(raw_input(msg))
+        except ValueError:
+            print "ERROR: Valor no numerico entero..."
+            raw_input('')
+            return -1
+
     def main(self):
         print('+---------------------------------------------+')
         print('|  Bienvenido al Simulador Publica-Subscribe  |')
         print('+---------------------------------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
+        os.system('clear')
         print('')
         print('+---------------------------------------------+')
         print('|        Evento        |      Descripción     |')
@@ -117,76 +127,172 @@ class SetUpSimulador:
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
-        print('')
-        print('+---------------------------------------------+')
-        print('|        CONFIGURACIÓN DE LA SIMULACIÓN       |')
-        print('+---------------------------------------------+')
-        print('|        Número de publicadores         |  ?  |')
-        print('+---------------------------------------------+')
-        publishers = raw_input('número entero: ')
-        print('+---------------------------------------------+')
-        print('|        Número de publicadores         |  ' + publishers + '  |')
-        print('+---------------------------------------------+')
-        print('|            ASIGNACIÓN DE SENSORES           |')
-        print('+---------------------------------------------+')
-        print('')
-        raw_input('presiona enter para continuar: ')
-        print('')
-        for x in xrange(0, int(publishers)):
-            print('+---------------------------------------------+')
-            print('|            DATOS DEL ADULTO MAYOR |    ' + str(x) + '    |')
-            print('+---------------------------------------------+')
-            print('|           NOMBRE           |        ?       |')
-            print('+---------------------------------------------+')
-            nombre = raw_input('escribe el nombre: ')
-            print('+---------------------------------------------+')
-            print('|           NOMBRE           | ' + nombre + ' |')
-            print('+---------------------------------------------+')
-            self.create_temperature_sensor(nombre)
-            print('|     SENSOR TEMPERATURA     |    ASIGNADO   |')
-            print('+---------------------------------------------+')
-            self.create_preasure_sensor(nombre)
-            print('|       SENSOR PRESIÓN       |    ASIGNADO   |')
-            print('+---------------------------------------------+')
-            self.create_heart_rate_sensor(nombre)
-            print('|    SENSOR RITMO CARDIACO   |    ASIGNADO   |')
-            print('+---------------------------------------------+')
-            self.create_acelerometer(nombre)
-            print('|       SENSOR ACELEROMETRO       |    ASIGNADO   |')
-            print('+---------------------------------------------+')
+        while True:
+            os.system('clear')
             print('')
+            print('+---------------------------------------------+')
+            print('|                 MENÚ INICIAL                |')
+            print('+---------------------------------------------+')
+            print('|  1.-  GESTIÓN DE USUARIOS                   |')
+            print('+---------------------------------------------+')
+            print('|  2.-  GESTIÓN DE GRUPOS                     |')
+            print('+---------------------------------------------+')
+            print('|  3.-  GESTIÓN DE MEDICAMENTOS               |')
+            print('+---------------------------------------------+')
+            print('|  4.-  GESTIÓN DE SIGNOS VITALES             |')
+            print('+---------------------------------------------+')
+            print('|  5.-  INICIAR SIMULACIÓN                    |')
+            print('+---------------------------------------------+')
+            print('|  6.-  SALIR DE SIMULADOR                    |')
+            print('+---------------------------------------------+')
+            op = self.readInt("Ingrese opción: ")
+            if op == 1:
+                self.menuUsuarios()
+            elif op == 2:
+                self.menuGrupos()
+            elif op == 3:
+                self.menuMedicamentos()
+            elif op == 4:
+                self.menuSignosVitales()
+            elif op == 5:
+                print "iniciando simulación..."
+                self.iniciarSimulacion()
+            elif op == 6:
+                print "saliendo..."
+                os.system('clear')
+                break
+            else:
+                pass
 
-            raw_input('presiona enter para continuar: ')
-        print('+---------------------------------------------+')
-        print('|        VALORES MÁXIMOS DE LOS EVENTOS       |')
-        print('+---------------------------------------------+')
-        print('|          TEMPERATURA       |        ?       |')
-        print('+---------------------------------------------+')
-        temperatura_maxima = raw_input('temperatura máxima: ')
-        self.temperatura = int(temperatura_maxima)
-        print('+---------------------------------------------+')
-        print('|          TEMPERATURA       |       ' + temperatura_maxima + '       |')
-        print('+---------------------------------------------+')
-        print('|       RITMO CARDIACO       |        ?       |')
-        print('+---------------------------------------------+')
-        ritmo_maximo = raw_input('ritmo máximo: ')
-        self.ritmo_cardiaco = int(ritmo_maximo)
-        print('+---------------------------------------------+')
-        print('|       RITMO CARDIACO       |      ' + ritmo_maximo + '       |')
-        print('+---------------------------------------------+')
-        print('|      PRESION ARTERIAL      |        ?       |')
-        print('+---------------------------------------------+')
-        presion_maxima = raw_input('presión máxima: ')
-        self.presion = int(presion_maxima)
-        print('+---------------------------------------------+')
-        print('|      PRESION ARTERIAL      |      ' + presion_maxima + '       |')
-        print('+---------------------------------------------+')
-        print('|   CONFIGURACIÓN DE LA SIMULACIÓN TERMINADA  |')
-        print('+---------------------------------------------+')
-        raw_input('presiona enter para continuar: ')
-        print('+---------------------------------------------+')
-        print('|             INICIANDO SIMULACIÓN            |')
-        print('+---------------------------------------------+')
+    def menuUsuarios(self):
+        while True:
+            os.system('clear')
+            print('')
+            print('+---------------------------------------------+')
+            print('|               MENÚ USUARIOS                 |')
+            print('+---------------------------------------------+')
+            print('|  1.-  AGRAGAR USUARIO                       |')
+            print('+---------------------------------------------+')
+            print('|  2.-  ELIMIAR USUARIO                       |')
+            print('+---------------------------------------------+')
+            print('|  6.-  REGRESAR                              |')
+            print('+---------------------------------------------+')
+            op = self.readInt("Ingrese opción: ")
+
+            if op == 1:
+                print('')
+                nombre = raw_input("Ingrese Nombre: ")
+                edad = self.readInt("Ingrese Edad: ")
+                self.registrarUsuario(nombre, edad)
+                print "Registrando..."
+            elif op == 2:
+                nombre = raw_input("Ingrese nombre: ")
+                self.eliminarUsuario(nombre)
+                print "eliminando..."
+            elif op == 6:
+                print "regresando..."
+                break
+            else:
+                pass
+
+    def registrarUsuario(self, nombre, edad):
+        pass
+
+    def eliminarUsuario(self, nombre):
+        pass
+
+    def menuGrupos(self):
+        while True:
+            os.system('clear')
+            print('')
+            print('+---------------------------------------------+')
+            print('|                 MENÚ GRUPOS                 |')
+            print('+---------------------------------------------+')
+            print('|  1.-  AGRAGAR USUARIO                       |')
+            print('+---------------------------------------------+')
+            print('|  2.-  ELIMIAR USUARIO                       |')
+            print('+---------------------------------------------+')
+            print('|  6.-  REGRESAR                              |')
+            print('+---------------------------------------------+')
+            op = self.readInt("Ingrese opción: ")
+            if op == 1:
+                pass
+            elif op == 2:
+                pass
+            elif op == 3:
+                pass
+            elif op == 6:
+                print "regresando..."
+                break
+            else:
+                pass
+
+    def menuMedicamentos(self):
+        while True:
+            os.system('clear')
+            print('')
+            print('+---------------------------------------------+')
+            print('|             MENÚ MEDICAMENTOS               |')
+            print('+---------------------------------------------+')
+            print('|  1.-  AGRAGAR MEDICAMENTO                   |')
+            print('+---------------------------------------------+')
+            print('|  2.-  ELIMIAR MEDICAMENTO                   |')
+            print('+---------------------------------------------+')
+            print('|  6.-  REGRESAR                              |')
+            print('+---------------------------------------------+')
+            op = self.readInt("Ingrese opción: ")
+            if op == 1:
+                pass
+            elif op == 2:
+                pass
+            elif op == 3:
+                pass
+            elif op == 6:
+                print "regresando..."
+                break
+            else:
+                pass
+
+    def menuSignosVitales(self):
+        while True:
+            os.system('clear')
+            print('')
+            print('+---------------------------------------------+')
+            print('|            MENÚ SIGNOS VITALES              |')
+            print('+---------------------------------------------+')
+            print('|  1.-  MODIFICAR TEMPERATURA                 |')
+            print('+---------------------------------------------+')
+            print('|  2.-  MODIFICAR PRESIÓN                     |')
+            print('+---------------------------------------------+')
+            print('|  3.-  MODIFICAR RITMO CARDIACO              |')
+            print('+---------------------------------------------+')
+            print('|  6.-  REGRESAR                              |')
+            print('+---------------------------------------------+')
+            op = self.readInt("Ingrese opción: ")
+
+            if op == 1:
+                print('')
+                temp = self.readInt("Ingrese Temperatura: ")
+                self.actualizarSV(id, temp)
+                print "temperatura..."
+            elif op == 2:
+                temp = self.readInt("Ingrese Presión: ")
+                self.actualizarSV(id, temp)
+                print "presión..."
+            elif op == 3:
+                temp = self.readInt("Ingrese Ritmo Cardiaco: ")
+                self.actualizarSV(id, temp)
+                print "ritmo cardiaco..."
+            elif op == 6:
+                print "regresando..."
+                break
+            else:
+                pass
+
+    def actualizarSV(self, id, value):
+        pass
+
+    def iniciarSimulacion(self):
         self.run_simulator()
 
     def create_temperature_sensor(self, nombre):
@@ -220,9 +326,8 @@ class SetUpSimulador:
             "gnome-terminal -e 'bash -c \"python AcelerometroManager.py ; sleep 5 \"'")
 
     def start_publishers(self):
-        for x in xrange(0, 1000):
-            for s in self.sensores:
-                s.start_service()
+        for s in self.sensores:
+            s.start_service()
 
 
 if __name__ == '__main__':
