@@ -78,7 +78,6 @@ from SensorRitmoCardiaco import SensorRitmoCardiaco
 from SensorPresion import SensorPresion
 from SensorAcelerometro import SensorAcelerometro
 
-
 class SetUpSimulador:
     sensores = []
     temperatura = 0
