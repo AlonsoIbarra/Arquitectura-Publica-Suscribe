@@ -73,10 +73,10 @@
 # --------------------------------------------------------------------------------------------------
 
 import os
-from SensorTemperatura import SensorTemperatura
-from SensorRitmoCardiaco import SensorRitmoCardiaco
-from SensorPresion import SensorPresion
-from SensorAcelerometro import SensorAcelerometro
+from sensores.SensorTemperatura import SensorTemperatura
+from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
+from sensores.SensorPresion import SensorPresion
+from sensores.SensorAcelerometro import SensorAcelerometro
 import getpass
 import hashlib
 # import sqlite3
