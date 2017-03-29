@@ -5,8 +5,8 @@ from contexto.Medicamento import Medicamento
 from datos.ListaDeMedicamentos import ListaDeMedicamentos
 from datos.ListaDeGrupos import ListaDeGrupos
 from contexto.Grupo import Grupo
-from datos.Grupo import Grupo
-from datos.ListaDeUsuarios import ListaDeUsuarios
+from datos.Grupo import Grupo as Group
+from datos.ListaDeUsuarios import ListaDeUsuarios as LDU
 
 # Agregar Usuario
 u = Usuario()
@@ -54,11 +54,11 @@ lg.crearGrupo(g)
 listaDeGrupos = lg.obtenerGrupos()
 
 
-l = ListaDeUsuarios()
+l = LDU()
 u = l.obtenerUsuarioPorId(3)
 
 
-g = Grupo(19)
+g = Group(19)
 # agrega miembro al grupo y dosis
 g.agregarUsuario(u, 200)
 
