@@ -81,6 +81,7 @@ import getpass
 import hashlib
 # import sqlite3
 
+
 class SetUpSimulador:
     sensores = []
     temperatura = 0
