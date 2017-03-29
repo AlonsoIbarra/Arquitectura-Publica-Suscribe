@@ -1,8 +1,14 @@
 
-# Agregar Usuario
 from contexto.Usuario import Usuario
 from datos.ListaDeUsuarios import ListaDeUsuarios
+from contexto.Medicamento import Medicamento
+from datos.ListaDeMedicamentos import ListaDeMedicamentos
+from datos.ListaDeGrupos import ListaDeGrupos
+from contexto.Grupo import Grupo
+from datos.Grupo import Grupo
+from datos.ListaDeUsuarios import ListaDeUsuarios
 
+# Agregar Usuario
 u = Usuario()
 u.nombres = "Josue"
 u.apellidos = "lopez"
@@ -22,10 +28,6 @@ usuarios = l.obtenerUsuarios()
 u = l.obtenerUsuarioPorId(1)
 
 
-
-from contexto.Medicamento import Medicamento
-from datos.ListaDeMedicamentos import ListaDeMedicamentos
-
 # agregar Medicamento
 m = Medicamento()
 m.descripcion = "Yodohidroxiquinoleina"
@@ -40,9 +42,6 @@ m = l.obtenerMedicamentoPorId(1)
 
 
 # agregar grupos
-from datos.ListaDeGrupos import ListaDeGrupos
-from contexto.Grupo import Grupo
-
 g = Grupo()
 g.periodo = 4
 g.medicamento = m
@@ -55,13 +54,9 @@ lg.crearGrupo(g)
 listaDeGrupos = lg.obtenerGrupos()
 
 
-from datos.ListaDeUsuarios import ListaDeUsuarios
-
-
 l = ListaDeUsuarios()
 u = l.obtenerUsuarioPorId(3)
 
-from datos.Grupo import Grupo
 
 g = Grupo(19)
 # agrega miembro al grupo y dosis

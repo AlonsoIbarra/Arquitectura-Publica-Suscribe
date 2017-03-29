@@ -15,7 +15,7 @@
 
 # print(l.obtenerUsuarios())
 
-from contexto.Medicamento import Medicamento
+# from contexto.Medicamento import Medicamento
 from datos.ListaDeGrupos import ListaDeGrupos
 from datos.ListaDeMedicamentos import ListaDeMedicamentos
 from contexto.Grupo import Grupo
@@ -31,7 +31,6 @@ g = Grupo()
 g.periodo = 4
 g.medicamento = m
 g.horaInicial = 12
-
 
 
 lg = ListaDeGrupos()
