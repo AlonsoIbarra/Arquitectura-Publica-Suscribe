@@ -44,4 +44,4 @@ u = l.obtenerUsuarioPorId(1)
 print(u.nombres)
 # l.agregarMedicamento(m)
 
-#print(l.obtenerMedicamentos())
+# print(l.obtenerMedicamentos())
