@@ -77,7 +77,7 @@ from sensores.SensorTemperatura import SensorTemperatura
 from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
-# from TimerMedicamento import TimerMedicamento
+from TimerMedicamento import TimerMedicamento
 from contexto.Medicamento import Medicamento
 from datos.ListaDeMedicamentos import ListaDeMedicamentos
 import getpass
@@ -249,30 +249,105 @@ class SetUpSimulador:
         pass
 
     def menuGrupos(self):
+        lg = ListaDeGrupos()
         while True:
             os.system('clear')
             print('')
             print('+---------------------------------------------+')
             print('|                 MENÚ GRUPOS                 |')
             print('+---------------------------------------------+')
-            print('|  1.-  AGRAGAR USUARIO                       |')
+            print('|  1.-  AGRAGAR GRUPO                         |')
             print('+---------------------------------------------+')
-            print('|  2.-  ELIMIAR USUARIO                       |')
+            print('|  2.-  ELIMIAR GRUPO                         |')
+            print('+---------------------------------------------+')
+            print('|  3.-  LISTAR GRUPOS                         |')
             print('+---------------------------------------------+')
             print('|  6.-  REGRESAR                              |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
-                pass
+                self.agregarGrupo(lg)
             elif op == 2:
-                pass
+                self.eliminarGrupo(lg)
             elif op == 3:
-                pass
+                self.listarGrupos(lg)
             elif op == 6:
                 print "regresando..."
                 break
             else:
                 pass
+
+    def __leerMedicamento(self):
+        lm = ListaDeMedicamentos()
+        self.listarMedicamentos(lm)
+        idMedicamento = self.readInt('Ingrese el id del medicamento a asociar. ')
+        try:
+            medicamento = lm.obtenerMedicamentoPorId(idMedicamento)
+            if(raw_input('Desea agregar ' + medicamento.descripcion + '? s/n ')) == str('s'):
+                return medicamento
+            else:
+                if(raw_input('Desea continuar buscando? s/n ')) == str('s'):
+                    return self.__leerMedicamento()
+                else:
+                    print("Cancelando operación")
+                    raw_input()
+                    return -1
+        except:
+            print ('No se encontro el registro, intente nuevamente.')
+            raw_input()
+            return self.__leerMedicamento()
+
+    def agregarGrupo(self, lg):
+        periodo = self.readInt('Ingrese periodo de tiempo en un valor entero. ')
+        horaInicial = self.readInt('Ingrese hora inicial en valo entero, en formato de 24 horas. ')
+        medicamento = self.__leerMedicamento()
+        if medicamento != -1:
+            grupo = GrupoElemento()
+            grupo.periodo = periodo
+            grupo.medicamento = medicamento
+            grupo.horaInicial = horaInicial
+            lg.crearGrupo(grupo)
+            print ("Se creo el grupo exitosamente")
+            raw_input()
+            return True
+        else:
+            print ("Ocurrio un error intente nuevamente.")
+            raw_input()
+            return False
+
+    def eliminarGrupo(self, lg):
+        idGrupo = self.readInt('Ingrese id de grupo ')
+        try:
+            grupo = lg.obtenerGrupoPorId(idGrupo)
+        except:
+            print ('Grupo no encontrado.')
+            raw_input()
+            return False
+        if (raw_input('Confirma eliminar el grupo número ' + str(idGrupo) + '? s/n ')) == str('s'):
+            lg.eliminarGrupo(grupo)
+            print ('Grupo eliminado exitosamente.')
+            raw_input()
+            return True
+        else:
+            print ('Operación cancelada.')
+            raw_input()
+            return False
+
+    def listarGrupos(self, lg):
+        lm = ListaDeMedicamentos()
+        lst = lg.obtenerGrupos()
+        print('+-------------------------------------------------+')
+        print('|  ID  |  PERIODO  | MEDICAMENTO  | HORA INICIAL  |')
+        for g in lst:
+            try:
+                medicamento = lm.obtenerMedicamentoPorId(int(g[2]))
+            except:
+                medicamento = Medicamento()
+                medicamento.descripcion = "Desconocido"
+            print('+---------------------------------------------+')
+            print('|  ' + str(g[0]) + '  |  ' + str(g[1]) + '       | ' + medicamento.descripcion + '  | ' + str(g[3]) + '  |')
+        raw_input()
+        return True
 
     def menuMedicamentos(self):
         lm = ListaDeMedicamentos()
@@ -311,7 +386,7 @@ class SetUpSimulador:
             print ("Medicamento agragado exitosamente.")
             raw_input()
             return True
-        except:
+        except Exception as e:
             print ("Ocurrio un problema, intente nuevamente.")
             raw_input()
             return False
@@ -320,7 +395,7 @@ class SetUpSimulador:
         try:
             idMedicamento = self.readInt('Ingrese el id del medicamento. ')
             md = lm.obtenerMedicamentoPorId(idMedicamento)
-        except:
+        except Exception as e:
             print ("Medicamento no encontrado")
             raw_input()
             return False
@@ -329,7 +404,7 @@ class SetUpSimulador:
                 lm.eliminarMedicamento(md)
                 print ("Medicamento eliminado.")
                 raw_input()
-            except:
+            except Exception as e:
                 print ("Fallo al eliminar medicamento.")
                 raw_input()
         else:

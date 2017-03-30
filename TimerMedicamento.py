@@ -9,12 +9,12 @@ class TimerMedicamento():
         pass
 
     def start_timer(self):
+            print(' [*] Inicio de temporizador de medicamentos. Presiona CTRL+C para finalizar temporizador')
             start_time = time.time()
             elapsed_time = 0
             while True:
                 if(elapsed_time < int(time.time() - start_time)):
                     elapsed_time = int(time.time() - start_time)
-                    print elapsed_time
                     threading.Thread(target=self.check, args=(elapsed_time,)).start()
 
     def construir_mensaje(self, grupo):
@@ -26,9 +26,9 @@ class TimerMedicamento():
         mensaje += '+---------------------------------------------+\n'
         mensaje += '\tUsuarios:\t\t\tDosis:\n'
         mensaje += '\n'
-        for usuario in grupo.obtenerUsuarios():
-            mensaje += '\t' + usuario[0].nombres + ' ' + usuario[0].apellidos
-            mensaje += '\t\t\t' + str(usuario[1]) + '\n'
+        for miembro in grupo.obtenerobtenerMiembros():
+            mensaje += '\t' + miembro[0].nombres + ' ' + miembro[0].apellidos
+            mensaje += '\t\t\t' + str(miembro[1]) + '\n'
         print mensaje
 
     def check(self, time):
@@ -37,3 +37,7 @@ class TimerMedicamento():
             if (int(time) % int(r[1])) == 0:
                 grupo = Grupo(r[0])
                 self.construir_mensaje(grupo)
+
+
+timer = TimerMedicamento()
+timer.start_timer()

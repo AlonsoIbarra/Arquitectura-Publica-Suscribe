@@ -1,5 +1,4 @@
 import sys
-sys.path.append('/home/gustavo/Ejercicios_Python/MonitorConsola/Arquitectura-Publica-Suscribe')
 from contexto.Medicamento import Medicamento
 from datos.Conexion import Conexion
 
@@ -18,8 +17,10 @@ class ListaDeMedicamentos():
     def eliminarMedicamento(self, medicamento):
         cn = Conexion()
         cn.abrir()
+
         cn.ejecutaSQL("delete from Medicamentos  where idMedicamento = " +
                       str(medicamento.idMedicamento) + "")
+
         cn.cerrar()
         return True
 
