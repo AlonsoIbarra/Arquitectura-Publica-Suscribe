@@ -77,17 +77,12 @@ from sensores.SensorTemperatura import SensorTemperatura
 from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
-<<<<<<< HEAD
-from datos.ListaDeUsuarios import ListaDeUsuarios
-=======
-# from TimerMedicamento import TimerMedicamento
+from datos.ListaDeMiembros import ListaDeMiembros
 from contexto.Medicamento import Medicamento
 from datos.ListaDeMedicamentos import ListaDeMedicamentos
->>>>>>> 129a91fc2464dd26285dfb52fb4c337cbfc4dc62
 import getpass
 import hashlib
 import time
-# import sqlite3
 
 
 class SetUpSimulador:
@@ -144,15 +139,14 @@ class SetUpSimulador:
         print('|                  Login                      |')
         print('+---------------------------------------------+')
         print('')
-        """usuario = raw_input("Ingrese Nombre de Usuario: ")
+        usuario = raw_input("Ingrese Nombre de Usuario: ")
         pswd = getpass.getpass('Password:')
         user = self.getUser(usuario)
         if hashlib.sha224(pswd).hexdigest() == user[3]:
             if(int(user[2]) == 0):
                 self.menuAdministrador()
             else:
-                self.menuUsuario()"""
-        self.menuAdministrador()
+                self.menuUsuario()
 
     def getUser(self, usuario):
         return (1, 'usuario', 0, '147ad31215fd55112ce613a7883902bb306aa35bba879cd2dbe500b9')
@@ -391,8 +385,8 @@ class SetUpSimulador:
         pass
 
     def iniciarSimulacion(self):
-        lista = ListaDeUsuarios()
-        for usuario in lista.obtenerUsuarios():
+        lista = ListaDeMiembros()
+        for usuario in lista.obtenerMiembros():
             self.create_temperature_sensor(usuario.nombres)
             self.create_heart_rate_sensor(usuario.nombres)
             self.create_preasure_sensor(usuario.nombres)

@@ -26,15 +26,11 @@ class TimerMedicamento():
         mensaje += '+---------------------------------------------+\n'
         mensaje += '\tUsuarios:\t\t\tDosis:\n'
         mensaje += '\n'
-        for usuario in grupo.obtenerUsuarios():
-            mensaje += '\t' + usuario[0].nombres + ' ' + usuario[0].apellidos
-            mensaje += '\t\t\t' + str(usuario[1]) + '\n'
+        for miembro in grupo.obtenerobtenerMiembros():
+            mensaje += '\t' + miembro[0].nombres + ' ' + miembro[0].apellidos
+            mensaje += '\t\t\t' + str(miembro[1]) + '\n'
         print mensaje
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 129a91fc2464dd26285dfb52fb4c337cbfc4dc62
     def check(self, time):
         listagrupo = ListaDeGrupos()
         for r in listagrupo.obtenerGrupos():
