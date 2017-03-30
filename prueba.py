@@ -7,6 +7,9 @@ from datos.ListaDeGrupos import ListaDeGrupos
 from contexto.Grupo import Grupo
 from datos.Grupo import Grupo as Group
 from datos.ListaDeMiembros import ListaDeMiembros as LDU
+from datos.ListaDeUsuarios import ListaDeUsuarios
+from contexto.Usuario import Usuario
+
 
 # Agregar Usuario
 u = Miembro()
@@ -60,7 +63,7 @@ u = l.obtenerMiembroPorId(1)
 
 g = Group(21)
 # agrega miembro al grupo y dosis
-g.agregarMiembro(u, 200)
+#g.agregarMiembro(u, 200)
 
 # devuelve los miembros del grupo
 miembros = g.obtenerMiembros()
@@ -69,3 +72,24 @@ for m in miembros:
     u = m[0]
     dosis = m[1]
     print(u.nombres + ", " + u.apellidos + " dosis: " + str(dosis))
+
+
+lu = ListaDeUsuarios()
+
+u = Usuario()
+u.tipo = 1
+u.nombre = "luis"
+u.contrasena = "luis"
+
+#lu.agregarUsuario(u)
+
+u  = lu.obtenerUsuarioPorNombre("saul")
+
+print(u.nombre + ": " + u.contrasena)
+
+#lu.eliminarUsuario("miles")
+
+
+users  = lu.obtenerUsuarios()
+for u in users:
+    print(u.nombre)

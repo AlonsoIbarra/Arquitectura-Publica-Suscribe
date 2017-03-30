@@ -1,5 +1,4 @@
 import sys
-sys.path.append('/home/gustavo/Ejercicios_Python/MonitorConsola/Arquitectura-Publica-Suscribe')
 from contexto.Miembro import Miembro
 from datos.Conexion import Conexion
 
