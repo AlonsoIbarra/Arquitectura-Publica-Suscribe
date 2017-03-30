@@ -78,6 +78,8 @@ from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
 from TimerMedicamento import TimerMedicamento
+from contexto.Medicamento import Medicamento
+from datos.ListaDeMedicamentos import ListaDeMedicamentos
 import getpass
 import hashlib
 # import sqlite3
@@ -287,16 +289,60 @@ class SetUpSimulador:
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
-                pass
+                self.agregarMedicamento(lm)
             elif op == 2:
-                pass
+                self.eliminarMedicamento(lm)
             elif op == 3:
-                pass
+                self.listarMedicamentos(lm)
             elif op == 6:
                 print "regresando..."
                 break
             else:
                 pass
+
+    def agregarMedicamento(self, lm):
+        try:
+            medicamento = Medicamento()
+            medicamento.descripcion = raw_input('ingrese el nombre del medicamento ')
+            lm.agregarMedicamento(medicamento)
+            print ("Medicamento agragado exitosamente.")
+            raw_input()
+            return True
+        except Exception as e:
+            print ("Ocurrio un problema, intente nuevamente.")
+            print (e.strerror)
+            raw_input()
+            return False
+
+    def eliminarMedicamento(self, lm):
+        try:
+            idMedicamento = self.readInt('Ingrese el id del medicamento. ')
+            md = lm.obtenerMedicamentoPorId(idMedicamento)
+        except Exception as e:
+            print ("Medicamento no encontrado")
+            raw_input()
+            return False
+        if str(raw_input('confirma eliminar ' + md.descripcion + '? s/n  ')) == str('s'):
+            try:
+                lm.eliminarMedicamento(md)
+                print ("Medicamento eliminado.")
+                raw_input()
+            except Exception as e:
+                print ("Fallo al eliminar medicamento.")
+                print (e.strerror)
+                raw_input()
+        else:
+            print ("Operacion cancelada")
+            raw_input()
+
+    def listarMedicamentos(self, lm):
+        print('+---------------------------------------------+')
+        print('|  ID  |  MEDICAMENTO                        |')
+        print('+---------------------------------------------+')
+        for m in lm.obtenerMedicamentos():
+            print('|  ' + str(m[0]) + '  |  ' + str(m[1]) + '       |')
+            print('+---------------------------------------------+')
+        raw_input()
 
     def menuSignosVitales(self):
         while True:
