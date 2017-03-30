@@ -77,7 +77,7 @@ from sensores.SensorTemperatura import SensorTemperatura
 from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
-from TimerMedicamento import TimerMedicamento
+# from TimerMedicamento import TimerMedicamento
 from contexto.Medicamento import Medicamento
 from datos.ListaDeMedicamentos import ListaDeMedicamentos
 import getpass
@@ -275,6 +275,7 @@ class SetUpSimulador:
                 pass
 
     def menuMedicamentos(self):
+        lm = ListaDeMedicamentos()
         while True:
             os.system('clear')
             print('')
@@ -284,6 +285,8 @@ class SetUpSimulador:
             print('|  1.-  AGRAGAR MEDICAMENTO                   |')
             print('+---------------------------------------------+')
             print('|  2.-  ELIMIAR MEDICAMENTO                   |')
+            print('+---------------------------------------------+')
+            print('|  3.-  LISTAR MEDICAMENTOS                   |')
             print('+---------------------------------------------+')
             print('|  6.-  REGRESAR                              |')
             print('+---------------------------------------------+')
@@ -308,9 +311,8 @@ class SetUpSimulador:
             print ("Medicamento agragado exitosamente.")
             raw_input()
             return True
-        except Exception as e:
+        except:
             print ("Ocurrio un problema, intente nuevamente.")
-            print (e.strerror)
             raw_input()
             return False
 
@@ -318,7 +320,7 @@ class SetUpSimulador:
         try:
             idMedicamento = self.readInt('Ingrese el id del medicamento. ')
             md = lm.obtenerMedicamentoPorId(idMedicamento)
-        except Exception as e:
+        except:
             print ("Medicamento no encontrado")
             raw_input()
             return False
@@ -327,9 +329,8 @@ class SetUpSimulador:
                 lm.eliminarMedicamento(md)
                 print ("Medicamento eliminado.")
                 raw_input()
-            except Exception as e:
+            except:
                 print ("Fallo al eliminar medicamento.")
-                print (e.strerror)
                 raw_input()
         else:
             print ("Operacion cancelada")
