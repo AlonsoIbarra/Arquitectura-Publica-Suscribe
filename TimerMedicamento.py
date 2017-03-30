@@ -26,7 +26,7 @@ class TimerMedicamento():
         mensaje += '+---------------------------------------------+\n'
         mensaje += '\tUsuarios:\t\t\tDosis:\n'
         mensaje += '\n'
-        for miembro in grupo.obtenerobtenerMiembros():
+        for miembro in grupo.obtenerMiembros():
             mensaje += '\t' + miembro[0].nombres + ' ' + miembro[0].apellidos
             mensaje += '\t\t\t' + str(miembro[1]) + '\n'
         print mensaje
