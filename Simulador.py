@@ -77,6 +77,7 @@ from sensores.SensorTemperatura import SensorTemperatura
 from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
+from TimerMedicamento import TimerMedicamento
 import getpass
 import hashlib
 # import sqlite3
