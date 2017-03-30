@@ -18,8 +18,12 @@ class ListaDeMedicamentos():
     def eliminarMedicamento(self, medicamento):
         cn = Conexion()
         cn.abrir()
+<<<<<<< HEAD
         cn.ejecutaSQL("delete from Medicamentos  where idMedicamento = " +
                       str(medicamento.idMedicamento) + "")
+=======
+        cn.ejecutaSQL("delete from Medicamentos  where idMedicamento =" + str(medicamento.idMedicamento) + "")
+>>>>>>> 1a45ebb44032d4bed2ffda02775b46007c119124
         cn.cerrar()
         return True
 
