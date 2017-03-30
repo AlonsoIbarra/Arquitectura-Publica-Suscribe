@@ -77,13 +77,12 @@ from sensores.SensorTemperatura import SensorTemperatura
 from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
+from datos.ListaDeMiembros import ListaDeMiembros
 from contexto.Medicamento import Medicamento
 from datos.ListaDeMedicamentos import ListaDeMedicamentos
-from contexto.Grupo import Grupo as GrupoElemento
-from datos.ListaDeGrupos import ListaDeGrupos
 import getpass
 import hashlib
-# import sqlite3
+import time
 
 
 class SetUpSimulador:
@@ -250,105 +249,30 @@ class SetUpSimulador:
         pass
 
     def menuGrupos(self):
-        lg = ListaDeGrupos()
         while True:
             os.system('clear')
             print('')
             print('+---------------------------------------------+')
             print('|                 MENÚ GRUPOS                 |')
             print('+---------------------------------------------+')
-            print('|  1.-  AGRAGAR GRUPO                         |')
+            print('|  1.-  AGRAGAR USUARIO                       |')
             print('+---------------------------------------------+')
-            print('|  2.-  ELIMIAR GRUPO                         |')
-            print('+---------------------------------------------+')
-            print('|  3.-  LISTAR GRUPOS                         |')
+            print('|  2.-  ELIMIAR USUARIO                       |')
             print('+---------------------------------------------+')
             print('|  6.-  REGRESAR                              |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
-                self.agregarGrupo(lg)
+                pass
             elif op == 2:
-                self.eliminarGrupo(lg)
+                pass
             elif op == 3:
-                self.listarGrupos(lg)
+                pass
             elif op == 6:
                 print "regresando..."
                 break
             else:
                 pass
-
-    def __leerMedicamento(self):
-        lm = ListaDeMedicamentos()
-        self.listarMedicamentos(lm)
-        idMedicamento = self.readInt('Ingrese el id del medicamento a asociar. ')
-        try:
-            medicamento = lm.obtenerMedicamentoPorId(idMedicamento)
-            if(raw_input('Desea agregar ' + medicamento.descripcion + '? s/n ')) == str('s'):
-                return medicamento
-            else:
-                if(raw_input('Desea continuar buscando? s/n ')) == str('s'):
-                    return self.__leerMedicamento()
-                else:
-                    print("Cancelando operación")
-                    raw_input()
-                    return -1
-        except:
-            print ('No se encontro el registro, intente nuevamente.')
-            raw_input()
-            return self.__leerMedicamento()
-
-    def agregarGrupo(self, lg):
-        periodo = self.readInt('Ingrese periodo de tiempo en un valor entero. ')
-        horaInicial = self.readInt('Ingrese hora inicial en valo entero, en formato de 24 horas. ')
-        medicamento = self.__leerMedicamento()
-        if medicamento != -1:
-            grupo = GrupoElemento()
-            grupo.periodo = periodo
-            grupo.medicamento = medicamento
-            grupo.horaInicial = horaInicial
-            lg.crearGrupo(grupo)
-            print ("Se creo el grupo exitosamente")
-            raw_input()
-            return True
-        else:
-            print ("Ocurrio un error intente nuevamente.")
-            raw_input()
-            return False
-
-    def eliminarGrupo(self, lg):
-        idGrupo = self.readInt('Ingrese id de grupo ')
-        try:
-            grupo = lg.obtenerGrupoPorId(idGrupo)
-        except:
-            print ('Grupo no encontrado.')
-            raw_input()
-            return False
-        if (raw_input('Confirma eliminar el grupo número ' + str(idGrupo) + '? s/n ')) == str('s'):
-            lg.eliminarGrupo(grupo)
-            print ('Grupo eliminado exitosamente.')
-            raw_input()
-            return True
-        else:
-            print ('Operación cancelada.')
-            raw_input()
-            return False
-
-    def listarGrupos(self, lg):
-        lm = ListaDeMedicamentos()
-        lst = lg.obtenerGrupos()
-        print('+-------------------------------------------------+')
-        print('|  ID  |  PERIODO  | MEDICAMENTO  | HORA INICIAL  |')
-        for g in lst:
-            try:
-                medicamento = lm.obtenerMedicamentoPorId(int(g[2]))
-            except:
-                medicamento = Medicamento()
-                medicamento.descripcion = "Desconocido"
-            print('+---------------------------------------------+')
-            print('|  ' + str(g[0]) + '  |  ' + str(g[1]) + '       | ' + medicamento.descripcion + '  | ' + str(g[3]) + '  |')
-        raw_input()
-        return True
 
     def menuMedicamentos(self):
         lm = ListaDeMedicamentos()
@@ -461,6 +385,12 @@ class SetUpSimulador:
         pass
 
     def iniciarSimulacion(self):
+        lista = ListaDeMiembros()
+        for usuario in lista.obtenerMiembros():
+            self.create_temperature_sensor(usuario.nombres)
+            self.create_heart_rate_sensor(usuario.nombres)
+            self.create_preasure_sensor(usuario.nombres)
+            self.create_acelerometer(usuario.nombres)
         self.run_simulator()
 
     def create_temperature_sensor(self, nombre):
@@ -485,17 +415,21 @@ class SetUpSimulador:
 
     def start_consumers(self):
         os.system(
-            "gnome-terminal -e 'bash -c \"python TemperaturaManager.py " + str(self.temperatura) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/TemperaturaManager.py " + str(self.temperatura) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python AcelerometroManager.py ; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/AcelerometroManager.py ; sleep 5 \"'")
+        os.system(
+            "gnome-terminal -e 'bash -c \"python TimerMedicamento.py ; sleep 5 \"'")
 
     def start_publishers(self):
-        for s in self.sensores:
-            s.start_service()
+        for x in xrange(0, 1000):
+            for s in self.sensores:
+                s.start_service()
+                time.sleep(1.0)
 
 
 if __name__ == '__main__':
