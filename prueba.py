@@ -64,7 +64,7 @@ u = l.obtenerMiembroPorId(1)
 
 g = Group(21)
 # agrega miembro al grupo y dosis
-#g.agregarMiembro(u, 200)
+# g.agregarMiembro(u, 200)
 
 # devuelve los miembros del grupo
 miembros = g.obtenerMiembros()
@@ -82,16 +82,16 @@ u.tipo = 1
 u.nombre = "luis"
 u.contrasena = "luis"
 
-#lu.agregarUsuario(u)
+# lu.agregarUsuario(u)
 
-u  = lu.obtenerUsuarioPorNombre("saul")
+u = lu.obtenerUsuarioPorNombre("saul")
 
 print(u.nombre + ": " + u.contrasena)
 
-#lu.eliminarUsuario("miles")
+# lu.eliminarUsuario("miles")
 
 
-users  = lu.obtenerUsuarios()
+users = lu.obtenerUsuarios()
 for u in users:
     print(u.nombre)
 
