@@ -22,7 +22,7 @@ l = ListaDeMiembros()
 l.agregarMiembro(u)
 
 # Obtener lista de usuarios
-miembros  = l.obtenerMiembros()
+miembros = l.obtenerMiembros()
 
 # Busca usuario por id
 u = l.obtenerMiembroPorId(1)
