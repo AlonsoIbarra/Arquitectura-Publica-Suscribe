@@ -32,8 +32,8 @@ class Grupo():
         self.horaInicial = resultado[2]
 
         m = Medicamento()
-        m.idMedicamento = resultado[2]
-        m.descripcion = resultado[3]
+        m.idMedicamento = resultado[3]
+        m.descripcion = resultado[4]
         self.medicamento = m
 
     def agregarMiembro(self, pmiembro, pdosis):
@@ -64,7 +64,6 @@ class Grupo():
                                      "Miembros on GrupoMiembros.idMiembro " +
                                      "= Miembros.idMiembro Where " +
                                      "Grupos.idGrupo = " + str(self.idGrupo))
-
         cn.cerrar()
         return self.__mapearMiembrosenLista(resultado)
 
