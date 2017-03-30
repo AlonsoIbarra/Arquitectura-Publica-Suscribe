@@ -1,5 +1,5 @@
-class Usuario():
-    idUsuario = 0
+class Miembro():
+    idMiembro = 0
     nombres = ""
     apellidos = ""
     edad = 0

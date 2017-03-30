@@ -77,7 +77,13 @@ from sensores.SensorTemperatura import SensorTemperatura
 from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
+<<<<<<< HEAD
 from datos.ListaDeUsuarios import ListaDeUsuarios
+=======
+# from TimerMedicamento import TimerMedicamento
+from contexto.Medicamento import Medicamento
+from datos.ListaDeMedicamentos import ListaDeMedicamentos
+>>>>>>> 129a91fc2464dd26285dfb52fb4c337cbfc4dc62
 import getpass
 import hashlib
 import time
@@ -275,6 +281,7 @@ class SetUpSimulador:
                 pass
 
     def menuMedicamentos(self):
+        lm = ListaDeMedicamentos()
         while True:
             os.system('clear')
             print('')
@@ -285,20 +292,64 @@ class SetUpSimulador:
             print('+---------------------------------------------+')
             print('|  2.-  ELIMIAR MEDICAMENTO                   |')
             print('+---------------------------------------------+')
+            print('|  3.-  LISTAR MEDICAMENTOS                   |')
+            print('+---------------------------------------------+')
             print('|  6.-  REGRESAR                              |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
-                pass
+                self.agregarMedicamento(lm)
             elif op == 2:
-                pass
+                self.eliminarMedicamento(lm)
             elif op == 3:
-                pass
+                self.listarMedicamentos(lm)
             elif op == 6:
                 print "regresando..."
                 break
             else:
                 pass
+
+    def agregarMedicamento(self, lm):
+        try:
+            medicamento = Medicamento()
+            medicamento.descripcion = raw_input('ingrese el nombre del medicamento ')
+            lm.agregarMedicamento(medicamento)
+            print ("Medicamento agragado exitosamente.")
+            raw_input()
+            return True
+        except:
+            print ("Ocurrio un problema, intente nuevamente.")
+            raw_input()
+            return False
+
+    def eliminarMedicamento(self, lm):
+        try:
+            idMedicamento = self.readInt('Ingrese el id del medicamento. ')
+            md = lm.obtenerMedicamentoPorId(idMedicamento)
+        except:
+            print ("Medicamento no encontrado")
+            raw_input()
+            return False
+        if str(raw_input('confirma eliminar ' + md.descripcion + '? s/n  ')) == str('s'):
+            try:
+                lm.eliminarMedicamento(md)
+                print ("Medicamento eliminado.")
+                raw_input()
+            except:
+                print ("Fallo al eliminar medicamento.")
+                raw_input()
+        else:
+            print ("Operacion cancelada")
+            raw_input()
+
+    def listarMedicamentos(self, lm):
+        print('+---------------------------------------------+')
+        print('|  ID  |  MEDICAMENTO                        |')
+        print('+---------------------------------------------+')
+        for m in lm.obtenerMedicamentos():
+            print('|  ' + str(m[0]) + '  |  ' + str(m[1]) + '       |')
+            print('+---------------------------------------------+')
+        raw_input()
 
     def menuSignosVitales(self):
         while True:

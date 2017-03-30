@@ -1,6 +1,6 @@
 import sys
 sys.path.append('/home/gustavo/Ejercicios_Python/MonitorConsola/Arquitectura-Publica-Suscribe')
-from contexto.Usuario import Usuario
+from contexto.Miembro import Miembro
 from contexto.Medicamento import Medicamento
 from datos.Conexion import Conexion
 
@@ -36,45 +36,44 @@ class Grupo():
         m.descripcion = resultado[4]
         self.medicamento = m
 
-    def agregarUsuario(self, usuario, pdosis):
+    def agregarMiembro(self, pmiembro, pdosis):
         cn = Conexion()
         cn.abrir()
-        cn.ejecutaSQL("insert into GrupoUsuarios " +
-                      "(idGrupo, idUsuario, dosis) " +
+        cn.ejecutaSQL("insert into GrupoMiembros " +
+                      "(idGrupo, idMiembro, dosis) " +
                       "values(" + str(self.idGrupo) + ", " +
-                      str(usuario.idUsuario) + ", " +
+                      str(pmiembro.idMiembro) + ", " +
                       str(pdosis) + ")")
         cn.cerrar()
 
-    def obtenerUsuarios(self):
+    def obtenerMiembros(self):
         cn = Conexion()
         cn.abrir()
         resultado = cn.ejecutaSELECT("select dosis, " +
-                                     "Usuarios.idUsuario, " +
-                                     "Usuarios.nombres, " +
-                                     "Usuarios.apellidos, " +
-                                     "Usuarios.edad, " +
-                                     "Usuarios.IDsTemperatura, " +
-                                     "Usuarios.IDsAcelerometro, " +
-                                     "Usuarios.IDsRitmoCardiaco, " +
-                                     "Usuarios.IDsPresion " +
-                                     "from (Grupos inner join GrupoUsuarios " +
+                                     "Miembros.idMiembro, " +
+                                     "Miembros.nombres, " +
+                                     "Miembros.apellidos, " +
+                                     "Miembros.edad, " +
+                                     "Miembros.IDsTemperatura, " +
+                                     "Miembros.IDsAcelerometro, " +
+                                     "Miembros.IDsRitmoCardiaco, " +
+                                     "Miembros.IDsPresion " +
+                                     "from (Grupos inner join GrupoMiembros " +
                                      "on Grupos.idGrupo = " +
-                                     "GrupoUsuarios.idGrupo) inner join " +
-                                     "Usuarios on GrupoUsuarios.idUsuario " +
-                                     "= Usuarios.idUsuario " +
-                                     "where Grupos.idGrupo="+ str(self.idGrupo))
-
+                                     "GrupoMiembros.idGrupo) inner join " +
+                                     "Miembros on GrupoMiembros.idMiembro " +
+                                     "= Miembros.idMiembro Where " +
+                                     "Grupos.idGrupo = " + str(self.idGrupo))
         cn.cerrar()
-        return self.__mapearUsuariosenLista(resultado)
+        return self.__mapearMiembrosenLista(resultado)
 
-    def __mapearUsuariosenLista(self, resultado):
-        ListaDeUsuarios = []
+    def __mapearMiembrosenLista(self, resultado):
+        ListaDeMiembros = []
         dosis = 0
         for r in resultado:
             dosis = r[0]
-            u = Usuario()
-            u.idUsuario = r[1]
+            u = Miembro()
+            u.idMiembro = r[1]
             u.nombres = r[2]
             u.apellidos = r[3]
             u.edad = r[4]
@@ -83,6 +82,6 @@ class Grupo():
             u.IDsRitmoCardiaco = r[7]
             u.IDsPresion = r[8]
 
-            ListaDeUsuarios.append((u, dosis))
+            ListaDeMiembros.append((u, dosis))
 
-        return ListaDeUsuarios
+        return ListaDeMiembros

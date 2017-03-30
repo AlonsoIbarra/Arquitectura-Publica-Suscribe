@@ -1,15 +1,15 @@
 
-from contexto.Usuario import Usuario
-from datos.ListaDeUsuarios import ListaDeUsuarios
+from contexto.Miembro import Miembro
+from datos.ListaDeMiembros import ListaDeMiembros
 from contexto.Medicamento import Medicamento
 from datos.ListaDeMedicamentos import ListaDeMedicamentos
 from datos.ListaDeGrupos import ListaDeGrupos
 from contexto.Grupo import Grupo
 from datos.Grupo import Grupo as Group
-from datos.ListaDeUsuarios import ListaDeUsuarios as LDU
+from datos.ListaDeMiembros import ListaDeMiembros as LDU
 
 # Agregar Usuario
-u = Usuario()
+u = Miembro()
 u.nombres = "Josue"
 u.apellidos = "lopez"
 u.edad = 37
@@ -18,14 +18,14 @@ u.IDsPresion = 1
 u.IDsAcelerometro = 1
 u.IDsRitmoCardiaco = 1
 
-l = ListaDeUsuarios()
-l.agregarUsuario(u)
+l = ListaDeMiembros()
+l.agregarMiembro(u)
 
 # Obtener lista de usuarios
-usuarios = l.obtenerUsuarios()
+miembros  = l.obtenerMiembros()
 
 # Busca usuario por id
-u = l.obtenerUsuarioPorId(1)
+u = l.obtenerMiembroPorId(1)
 
 
 # agregar Medicamento
@@ -55,15 +55,15 @@ listaDeGrupos = lg.obtenerGrupos()
 
 
 l = LDU()
-u = l.obtenerUsuarioPorId(3)
+u = l.obtenerMiembroPorId(1)
 
 
-g = Group(19)
+g = Group(21)
 # agrega miembro al grupo y dosis
-g.agregarUsuario(u, 200)
+g.agregarMiembro(u, 200)
 
 # devuelve los miembros del grupo
-miembros = g.obtenerUsuarios()
+miembros = g.obtenerMiembros()
 
 for m in miembros:
     u = m[0]
