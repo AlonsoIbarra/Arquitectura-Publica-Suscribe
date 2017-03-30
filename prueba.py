@@ -109,7 +109,7 @@ s.min = 35
 s.max = 37
 """
 ls = ListaDeSignos()
-#ls.agregarSigno(s)
+# ls.agregarSigno(s)
 
 s1 = ls.obtenerSignoPorDescripcion("Presion")
 print(s1.descripcion + " : max" + str(s1.max))
