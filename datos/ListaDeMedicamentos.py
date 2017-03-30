@@ -15,6 +15,13 @@ class ListaDeMedicamentos():
                       medicamento.descripcion + "')")
         cn.cerrar()
 
+    def eliminarMedicamento(self, medicamento):
+        cn = Conexion()
+        cn.abrir()
+        cn.ejecutaSQL("delete from Medicamentos  where idMedicamento =" + str(m.idMedicamento) + "")
+        cn.cerrar()
+        return True
+
     def obtenerMedicamentos(self):
         cn = Conexion()
         cn.abrir()
