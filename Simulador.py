@@ -415,13 +415,13 @@ class SetUpSimulador:
 
     def start_consumers(self):
         os.system(
-            "gnome-terminal -e 'bash -c \"python "+os.path.abspath("\managers")+ "/TemperaturaManager.py " + str(self.temperatura) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python "+ os.path.abspath("\managers") + "/TemperaturaManager.py " + str(self.temperatura) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python "+os.path.abspath("\managers")+ "/RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python "+ os.path.abspath("\managers") + "/RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python "+os.path.abspath("\managers")+ "/PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python "+ os.path.abspath("\managers") + "/PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python "+os.path.abspath("\managers")+ "/AcelerometroManager.py ; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python "+ os.path.abspath("\managers") + "/AcelerometroManager.py ; sleep 5 \"'")
         os.system(
             "gnome-terminal -e 'bash -c \"python TimerMedicamento.py ; sleep 5 \"'")
 
