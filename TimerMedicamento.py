@@ -37,7 +37,7 @@ class TimerMedicamento():
             if (int(time) % int(r[1])) == 0:
                 grupo = Grupo(r[0])
                 self.construir_mensaje(grupo)
-                
+
 
 timer = TimerMedicamento()
 timer.start_timer()
