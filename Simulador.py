@@ -77,9 +77,10 @@ from sensores.SensorTemperatura import SensorTemperatura
 from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
-from TimerMedicamento import TimerMedicamento
+from datos.ListaDeUsuarios import ListaDeUsuarios
 import getpass
 import hashlib
+import time
 # import sqlite3
 
 
@@ -137,14 +138,15 @@ class SetUpSimulador:
         print('|                  Login                      |')
         print('+---------------------------------------------+')
         print('')
-        usuario = raw_input("Ingrese Nombre de Usuario: ")
+        """usuario = raw_input("Ingrese Nombre de Usuario: ")
         pswd = getpass.getpass('Password:')
         user = self.getUser(usuario)
         if hashlib.sha224(pswd).hexdigest() == user[3]:
             if(int(user[2]) == 0):
                 self.menuAdministrador()
             else:
-                self.menuUsuario()
+                self.menuUsuario()"""
+        self.menuAdministrador()
 
     def getUser(self, usuario):
         return (1, 'usuario', 0, '147ad31215fd55112ce613a7883902bb306aa35bba879cd2dbe500b9')
@@ -338,6 +340,12 @@ class SetUpSimulador:
         pass
 
     def iniciarSimulacion(self):
+        lista = ListaDeUsuarios()
+        for usuario in lista.obtenerUsuarios():
+            self.create_temperature_sensor(usuario.nombres)
+            self.create_heart_rate_sensor(usuario.nombres)
+            self.create_preasure_sensor(usuario.nombres)
+            self.create_acelerometer(usuario.nombres)
         self.run_simulator()
 
     def create_temperature_sensor(self, nombre):
@@ -362,17 +370,21 @@ class SetUpSimulador:
 
     def start_consumers(self):
         os.system(
-            "gnome-terminal -e 'bash -c \"python TemperaturaManager.py " + str(self.temperatura) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python "+os.path.abspath("\managers")+ "/TemperaturaManager.py " + str(self.temperatura) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python "+os.path.abspath("\managers")+ "/RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python "+os.path.abspath("\managers")+ "/PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python AcelerometroManager.py ; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python "+os.path.abspath("\managers")+ "/AcelerometroManager.py ; sleep 5 \"'")
+        os.system(
+            "gnome-terminal -e 'bash -c \"python TimerMedicamento.py ; sleep 5 \"'")
 
     def start_publishers(self):
-        for s in self.sensores:
-            s.start_service()
+        for x in xrange(0, 1000):
+            for s in self.sensores:
+                s.start_service()
+                time.sleep(1.0)
 
 
 if __name__ == '__main__':

@@ -88,7 +88,7 @@ class SensorPresion:
         #   | La siguiente linea permite realizar la conexión con el servidor que aloja a RabbitMQ |
         #   +--------------------------------------------------------------------------------------+
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host='localhost'))
+        pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
         #   +----------------------------------------------------------------------------------------+
         #   | La siguiente linea permite definir el tipo de intercambio y de que cola recibirá datos |
@@ -104,7 +104,7 @@ class SensorPresion:
         channel.basic_publish(exchange='direct_preasure',
                               routing_key=severity, body=mensaje)
         print('+---------------+--------------------+-------------------------------+-------+')
-        print('|      ' + str(self.id) + '     |     ' + self.nombre + '     |   PRESIÓN ARTERIAL ENVIADA    |  ' + str(presion_arterial_generada) + '  |')
+        print('|      ' + str(self.id) + '     |     ' + self.nombre + '     |   PRESION ARTERIAL ENVIADA    |  ' + str(presion_arterial_generada) + '  |')
         print('+---------------+--------------------+-------------------------------+-------+')
         print('')
         connection.close()

@@ -28,7 +28,7 @@ class ListaDeUsuarios():
         resultado = cn.ejecutaSELECT("SELECT * FROM Usuarios")
         cn.cerrar()
 
-        return resultado
+        return self.__mapearUsuariosenLista(resultado)
 
     def obtenerUsuarioPorId(self, idUsuario):
         cn = Conexion()
@@ -55,3 +55,20 @@ class ListaDeUsuarios():
         u.IDsPresion = pUsuario[7]
 
         return u
+
+    def __mapearUsuariosenLista(self, resultado):
+        ListaDeUsuarios = []
+        for r in resultado:
+            u = Usuario()
+            u.idUsuario = r[0]
+            u.nombres = r[1]
+            u.apellidos = r[2]
+            u.edad = r[3]
+            u.IDsTemperatura = r[4]
+            u.IDsAcelerometro = r[5]
+            u.IDsRitmoCardiaco = r[6]
+            u.IDsPresion = r[7]
+
+            ListaDeUsuarios.append(u)
+
+        return ListaDeUsuarios
