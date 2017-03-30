@@ -38,6 +38,16 @@ class ListaDeUsuarios():
         cn.cerrar()
         return usuario
 
+    def obtenerUsuarioPorId(self, idUsuario):
+        cn = Conexion()
+        cn.abrir()
+        u = cn.ejecutaBusqueda("select idUsuario, tipo, nombre, " +
+                               "contrasena from Usuarios where " +
+                               "idUsuario = '" + str(idUsuario) + "'")
+        usuario = self.__devuelveUsuario(u)
+        cn.cerrar()
+        return usuario
+
     def __devuelveUsuario(self, pUsuario):
         usuario = Usuario()
         usuario.idUsuario = pUsuario[0]
@@ -46,12 +56,13 @@ class ListaDeUsuarios():
         Usuario.contrasena = pUsuario[3]
         return usuario
 
-    def eliminarUsuario(self, nombreUsuario):
+    def eliminarUsuario(self, usuario):
         cn = Conexion()
         cn.abrir()
-        cn.ejecutaSQL("delete from Usuarios where nombre = '" + nombreUsuario +
+        cn.ejecutaSQL("delete from Usuarios where idUsuario = '" + str(usuario.idUsuario) +
                       "'")
         cn.cerrar()
+        return True
 
     def agregarUsuario(self, pUsuario):
         cn = Conexion()
@@ -61,3 +72,4 @@ class ListaDeUsuarios():
                       ", '" + pUsuario.nombre + "', '" +
                       pUsuario.contrasena + "')")
         cn.cerrar()
+        return True
