@@ -77,9 +77,10 @@ from sensores.SensorTemperatura import SensorTemperatura
 from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
-from TimerMedicamento import TimerMedicamento
 from contexto.Medicamento import Medicamento
 from datos.ListaDeMedicamentos import ListaDeMedicamentos
+from contexto.Grupo import Grupo as GrupoElemento
+from datos.ListaDeGrupos import ListaDeGrupos
 import getpass
 import hashlib
 # import sqlite3
@@ -386,7 +387,7 @@ class SetUpSimulador:
             print ("Medicamento agragado exitosamente.")
             raw_input()
             return True
-        except Exception as e:
+        except:
             print ("Ocurrio un problema, intente nuevamente.")
             raw_input()
             return False
@@ -395,7 +396,7 @@ class SetUpSimulador:
         try:
             idMedicamento = self.readInt('Ingrese el id del medicamento. ')
             md = lm.obtenerMedicamentoPorId(idMedicamento)
-        except Exception as e:
+        except:
             print ("Medicamento no encontrado")
             raw_input()
             return False
@@ -404,7 +405,7 @@ class SetUpSimulador:
                 lm.eliminarMedicamento(md)
                 print ("Medicamento eliminado.")
                 raw_input()
-            except Exception as e:
+            except:
                 print ("Fallo al eliminar medicamento.")
                 raw_input()
         else:
