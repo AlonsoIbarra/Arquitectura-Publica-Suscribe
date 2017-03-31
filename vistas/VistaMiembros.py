@@ -7,7 +7,7 @@ from contexto.Usuario import Usuario
 from datos.ListaDeUsuarios import ListaDeUsuarios
 
 
-class VistaUsuarios():
+class VistaMiembros():
 
     def menuMiembros(self):
         lu = ListaDeMiembros()
