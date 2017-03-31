@@ -77,6 +77,7 @@ from vistas.VistaUsuarios import VistaUsuarios
 from vistas.VistaGrupos import VistaGrupos
 from vistas.VistaMedicamentos import VistaMedicamentos
 from vistas.VistaSignosVitales import VistaSignosVitales
+from vistas.VistaMiembros import VistaMiembros
 from contexto.Usuario import Usuario
 from datos.ListaDeUsuarios import ListaDeUsuarios
 from sensores.SensorTemperatura import SensorTemperatura
@@ -202,6 +203,7 @@ class SetUpSimulador:
         vg = VistaGrupos()
         vm = VistaMedicamentos()
         vsv = VistaSignosVitales()
+        vmi = VistaMiembros()
         while True:
             os.system('clear')
             print('')
