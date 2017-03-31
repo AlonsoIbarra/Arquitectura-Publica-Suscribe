@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import pika
+import sys
 from SignosVitales import SignosVitales
+
 
 
 class AcelerometroManager:
@@ -38,13 +40,13 @@ class AcelerometroManager:
         #    componenteY = values[5].split(',')[0]
         #    componenteZ = values[6].split(',')[0]
         #    if (-0.150 <= float(componenteX) <= float(0.5)) and (-0.150 <= float(componenteY) <= 0.999) and (-0.999 <= float(componenteZ) <= 0.99):
-            if (-0.150 <= float(componenteX) <= float(0.5)):
-                monitor = SignosVitales()
-                monitor.print_notification('+----------+-----------------------+')
-                monitor.print_notification('|   ' + str(values[1]) + '   |   SE CALLÓ   |  ' + str(values[2]) + '  |')
-                monitor.print_notification('+----------+-----------------------+')
-                monitor.print_notification('')
-                monitor.print_notification('')
+            #if (-0.150 <= float(componenteX) <= float(0.5)):
+            monitor = SignosVitales()
+            monitor.print_notification('+----------+-----------------------+')
+            monitor.print_notification('|   ' + str(values[1]) + '   |   SE CALLÓ   |  ' + str(values[2]) + '  |')
+            monitor.print_notification('+----------+-----------------------+')
+            monitor.print_notification('')
+            monitor.print_notification('')
         except:
             pass
 
