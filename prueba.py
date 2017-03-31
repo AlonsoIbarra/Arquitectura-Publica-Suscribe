@@ -9,7 +9,8 @@ from datos.Grupo import Grupo as Group
 from datos.ListaDeMiembros import ListaDeMiembros as LDU
 from datos.ListaDeUsuarios import ListaDeUsuarios
 from contexto.Usuario import Usuario
-
+from contexto.Signo import Signo
+from datos.ListaDeSignos import ListaDeSignos
 
 # Agregar Usuario
 u = Miembro()
@@ -93,3 +94,26 @@ print(u.nombre + ": " + u.contrasena)
 users = lu.obtenerUsuarios()
 for u in users:
     print(u.nombre)
+
+s = Signo()
+"""
+s.descripcion = "Presion"
+s.min = 10
+s.max = 100
+ls = ListaDeSignos()
+ls.agregarSigno(s)
+
+s = Signo()
+s.descripcion = "Temperatura"
+s.min = 35
+s.max = 37
+"""
+ls = ListaDeSignos()
+# ls.agregarSigno(s)
+
+s1 = ls.obtenerSignoPorDescripcion("Presion")
+print(s1.descripcion + " : max" + str(s1.max))
+ss = ls.obtenerSignos()
+
+for s in ss:
+    print(s.descripcion)
