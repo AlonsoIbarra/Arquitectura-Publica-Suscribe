@@ -332,7 +332,7 @@ class SetUpSimulador:
         os.system(
             "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/PresionManager.py " + str(presion.max) + "  " + str(argumentos) + " ; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/AcelerometroManager.py ; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/AcelerometroManager.py " + str(argumentos) + " ; sleep 5 \"'")
         os.system(
             "gnome-terminal -e 'bash -c \"python TimerMedicamento.py ; sleep 5 \"'")
 

@@ -10,7 +10,15 @@ class AcelerometroManager:
     values_parameters = []
 
     def start_consuming(self):
-        connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        try:
+            ip = sys.argv[1]
+            usuario = sys.argv[2]
+            contrasena = sys.argv[3]
+            credentials = pika.PlainCredentials(usuario, contrasena)
+            parameters = pika.ConnectionParameters(ip, 5672, '/',credentials)
+            connection = pika.BlockingConnection(parameters)
+        except:
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
         channel.exchange_declare(exchange='direct_rhythm', type='direct')
         result = channel.queue_declare(exclusive=True)
