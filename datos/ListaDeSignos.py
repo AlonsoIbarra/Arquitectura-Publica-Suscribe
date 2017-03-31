@@ -22,7 +22,7 @@ class ListaDeSignos():
         cn.abrir()
         s = cn.ejecutaBusqueda("select idSigno, descripcion, min, max " +
                                "from SignosVitales where descripcion = '" +
-                               pDescripcion + "'")
+                               str(pDescripcion) + "'")
         cn.cerrar()
         signo = self.__mapearSigno(s)
         return signo
@@ -45,7 +45,7 @@ class ListaDeSignos():
         cn = Conexion()
         cn.abrir()
         cn.ejecutaSQL("insert into SignosVitales(descripcion, min, " +
-                      "max) values ('" + pSigno.descripcion + "', " +
+                      "max) values ('" + str(pSigno.descripcion) + "', " +
                       str(pSigno.min) + ", " + str(pSigno.max) + ")")
         cn.cerrar()
         return True

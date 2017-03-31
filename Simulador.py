@@ -77,7 +77,7 @@ from vistas.VistaUsuarios import VistaUsuarios
 from vistas.VistaGrupos import VistaGrupos
 from vistas.VistaMedicamentos import VistaMedicamentos
 from vistas.VistaSignosVitales import VistaSignosVitales
-from vistas.VistaMiembros import VistaMiembros
+# from vistas.VistaMiembros import VistaMiembros
 from contexto.Usuario import Usuario
 from datos.ListaDeUsuarios import ListaDeUsuarios
 from sensores.SensorTemperatura import SensorTemperatura
@@ -137,7 +137,7 @@ class SetUpSimulador:
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
-        #self.login()
+        self.login()
         self.menuAdministrador()
         return True
 
@@ -185,25 +185,38 @@ class SetUpSimulador:
             print('+---------------------------------------------+')
             print('|  1.-  INICIAR SIMULACIÓN                    |')
             print('+---------------------------------------------+')
-            print('|  2.-  SALIR DE SIMULADOR                    |')
+            print('|  2.-  INICIAR SIMULADOR REMOTO              |')
+            print('+---------------------------------------------+')
+            print('|  3.-  SALIR DE SIMULADOR                    |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
                 print "iniciando simulación..."
-                self.iniciarSimulacion()
+                self.iniciarSimulacion([])
             elif op == 2:
+                print "saliendo..."
+                self.iniciarSimulacionRemota()
+            elif op == 3:
                 print "saliendo..."
                 os.system('clear')
                 break
             else:
                 pass
 
+    def iniciarSimulacionRemota(self):
+        ipRabbit = raw_input('Ingrese IP remota del servidor de RabbitMQ ')
+        usuarioRabbit = raw_input('Ingrese nomrbe de usuario de RabbitMQ ')
+        pswRabbit = raw_input('Ingrese contraseña de servidor de RabbitMQ ')
+        access = [ipRabbit, usuarioRabbit, pswRabbit]
+        self.iniciarSimulacion(access)
+        return True
+
     def menuAdministrador(self):
         vu = VistaUsuarios()
         vg = VistaGrupos()
         vm = VistaMedicamentos()
         vsv = VistaSignosVitales()
-        vmi = VistaMiembros()
+        # vmi = VistaMiembros()
         while True:
             os.system('clear')
             print('')
@@ -237,7 +250,7 @@ class SetUpSimulador:
                 vsv.menuSignosVitales()
             elif op == 6:
                 print "iniciando simulación..."
-                self.iniciarSimulacion()
+                self.iniciarSimulacion([])
             elif op == 7:
                 print "saliendo..."
                 os.system('clear')
@@ -245,25 +258,25 @@ class SetUpSimulador:
             else:
                 pass
 
-    def iniciarSimulacion(self):
+    def iniciarSimulacion(self, datosRabbitMQ):
         lista = ListaDeMiembros()
         for usuario in lista.obtenerMiembros():
-            self.create_temperature_sensor(usuario.nombres)
-            self.create_heart_rate_sensor(usuario.nombres)
-            self.create_preasure_sensor(usuario.nombres)
-            self.create_acelerometer(usuario.nombres)
+            self.create_temperature_sensor(usuario.nombres, datosRabbitMQ)
+            self.create_heart_rate_sensor(usuario.nombres, datosRabbitMQ)
+            self.create_preasure_sensor(usuario.nombres, datosRabbitMQ)
+            self.create_acelerometer(usuario.nombres, datosRabbitMQ)
         self.run_simulator()
 
-    def create_temperature_sensor(self, nombre):
-        s = SensorTemperatura(nombre)
+    def create_temperature_sensor(self, nombre, datosRabbitMQ):
+        s = SensorTemperatura(nombre, datosRabbitMQ)
         self.sensores.append(s)
 
-    def create_preasure_sensor(self, nombre):
-        s = SensorPresion(nombre)
+    def create_preasure_sensor(self, nombre, datosRabbitMQ):
+        s = SensorPresion(nombre, datosRabbitMQ)
         self.sensores.append(s)
 
-    def create_heart_rate_sensor(self, nombre):
-        s = SensorRitmoCardiaco(nombre)
+    def create_heart_rate_sensor(self, nombre, datosRabbitMQ):
+        s = SensorRitmoCardiaco(nombre, datosRabbitMQ)
         self.sensores.append(s)
 
     def run_simulator(self):
