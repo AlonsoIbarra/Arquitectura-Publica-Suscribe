@@ -20,7 +20,7 @@ class VistaMiembros():
             print('+---------------------------------------------+')
             print('|               MENÚ MIEMBROS                 |')
             print('+---------------------------------------------+')
-            print('|  1.-  AGRAGAR MIEMBRO                       |')
+            print('|  1.-  AGREGAR MIEMBRO                       |')
             print('+---------------------------------------------+')
             print('|  2.-  ELIMIAR MIEMBRO                       |')
             print('+---------------------------------------------+')
@@ -30,7 +30,7 @@ class VistaMiembros():
             print('+---------------------------------------------+')
             print('|  5.-  LISTAR MIEMBROS EN GRUPOS             |')
             print('+---------------------------------------------+')
-            print('|  5.-  REGRESAR                              |')
+            print('|  6.-  REGRESAR                              |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
 
@@ -98,7 +98,7 @@ class VistaMiembros():
             raw_input()
             return True
         else:
-            print ('No se agrego el registro, intente nuevamente.')
+            print ('No se agregó el registro, intente nuevamente.')
             raw_input()
             return False
 
@@ -125,7 +125,7 @@ class VistaMiembros():
                 raw_input()
                 return False
         else:
-            print ("Operacion cancelada")
+            print ("Operación cancelada")
             raw_input()
 
     def agregarMiembrosGrupos(self, lu):
@@ -156,18 +156,18 @@ class VistaMiembros():
                 raw_input()
                 return True
             else:
-                print ('No se agrego el registro, intente nuevamente.')
+                print ('No se agregó el registro, intente nuevamente.')
                 raw_input()
                 return False
             
         else:
-            print ("Operacion cancelada")
+            print ("Operación cancelada")
             raw_input()
 
     def readInt(self, msg):
         try:
             return int(raw_input(msg))
         except ValueError:
-            print "ERROR: Valor no numerico entero..."
+            print "ERROR: Valor no numérico entero..."
             raw_input('')
             return -1
