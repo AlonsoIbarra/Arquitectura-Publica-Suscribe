@@ -6,6 +6,8 @@ import hashlib
 import random
 from contexto.Miembro import Miembro
 from datos.ListaDeMiembros import ListaDeMiembros
+from datos.ListaDeGrupos import ListaDeGrupos
+from datos.ListaDeMedicamentos import ListaDeMedicamentos
 
 
 class VistaMiembros():
@@ -26,6 +28,8 @@ class VistaMiembros():
             print('+---------------------------------------------+')
             print('|  4.-  ASIGNAR MIEMBROS A GRUPOS             |')
             print('+---------------------------------------------+')
+            print('|  5.-  LISTAR MIEMBROS EN GRUPOS             |')
+            print('+---------------------------------------------+')
             print('|  5.-  REGRESAR                              |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
@@ -36,6 +40,10 @@ class VistaMiembros():
                 self.eliminarMiembros(lu)
             elif op == 3:
                 self.listarMiembros(lu)
+            elif op == 4:
+                self.agregarMiembrosGrupos(lu)
+            elif op == 5:
+                self.listarMiembrosGrupos(lu)
             elif op == 6:
                 print "regresando..."
                 break
@@ -50,6 +58,25 @@ class VistaMiembros():
             print('+---------------------------------------------------+')
             print('|  ' + str(u.idMiembro) + '  | ' + str(u.nombres) + ' | ' + str(u.apellidos) + ' | ' + str(u.edad) + ' | ')
         print('+-------------------------------------------------------+')
+        raw_input()
+        return True
+
+    def listarMiembrosGrupos(self, lu):
+        os.system('clear')
+        temp=0
+        for u in lu.obtenerMiembroGrupo():
+            if(u[0]!=temp):
+                temp=u[0]
+                print('+-------------------------------------------------------+')
+                print('|  GRUPO  |  MEDICAMENTO                                |')
+                print('+-------------------------------------------------------+')
+                print('| ' + str(u[0])+ ' |  ' + u[2] + ' ')
+                print('+-------------------------------------------------------+')
+                print('|  NOMBRE                              |  DOSIS         |')       
+                print('+-------------------------------------------------------+')
+            print('|  ' + u[1] + '  | ' + str(u[3]) + ' | ')
+        print('+-------------------------------------------------------+')
+        print(' ')
         raw_input()
         return True
 
@@ -97,6 +124,42 @@ class VistaMiembros():
                 print ('No se pudo eliminar a ' + miembro.nombre + '.')
                 raw_input()
                 return False
+        else:
+            print ("Operacion cancelada")
+            raw_input()
+
+    def agregarMiembrosGrupos(self, lu):
+        os.system('clear')
+        id = raw_input('Ingresa el id del miembro: ')
+        try:
+            miembro = lu.obtenerMiembroPorId(id)
+        except:
+            print ('No se localizó el registro con id ' + str(id))
+            raw_input()
+            return False
+        print('Miembro: ' + miembro.nombres)
+        grupo = raw_input('Ingresa el id del grupo: ')
+        try:
+            lg = ListaDeGrupos()
+            lm = ListaDeMedicamentos()
+            grupo = lg.obtenerGrupoPorId(grupo)
+            medicamento = lm.obtenerMedicamentoPorId(grupo.idMedicamento)
+        except:
+            print ('No se localizó el registro con id ' + str(id))
+            raw_input()
+            return False
+        print('Medicamento: ' + medicamento.descripcion)
+        dosis = raw_input('Ingresa la dosis: ')
+        if str(raw_input('Confirma asignar a ' + miembro.nombres + ' al grupo ' + str(grupo.idGrupo) + ' con dosis ' + str(dosis) + '? s/n  ')) == str('s'):
+            if lu.agregarMiembroGrupo(miembro.idMiembro, grupo.idGrupo, str(dosis)):
+                print ('Miembro agregado a grupo exitosamente.')
+                raw_input()
+                return True
+            else:
+                print ('No se agrego el registro, intente nuevamente.')
+                raw_input()
+                return False
+            
         else:
             print ("Operacion cancelada")
             raw_input()

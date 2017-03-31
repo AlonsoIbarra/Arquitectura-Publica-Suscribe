@@ -77,7 +77,7 @@ from vistas.VistaUsuarios import VistaUsuarios
 from vistas.VistaGrupos import VistaGrupos
 from vistas.VistaMedicamentos import VistaMedicamentos
 from vistas.VistaSignosVitales import VistaSignosVitales
-# from vistas.VistaMiembros import VistaMiembros
+from vistas.VistaMiembros import VistaMiembros
 from contexto.Usuario import Usuario
 from datos.ListaDeUsuarios import ListaDeUsuarios
 from sensores.SensorTemperatura import SensorTemperatura
@@ -138,7 +138,6 @@ class SetUpSimulador:
         print('')
         raw_input('presiona enter para continuar: ')
         self.login()
-        self.menuAdministrador()
         return True
 
     def login(self):
@@ -216,7 +215,7 @@ class SetUpSimulador:
         vg = VistaGrupos()
         vm = VistaMedicamentos()
         vsv = VistaSignosVitales()
-        # vmi = VistaMiembros()
+        vmi = VistaMiembros()
         while True:
             os.system('clear')
             print('')
