@@ -84,7 +84,6 @@ from contexto.Grupo import Grupo as GrupoElemento
 from datos.ListaDeGrupos import ListaDeGrupos
 from contexto.Usuario import Usuario
 from datos.ListaDeUsuarios import ListaDeUsuarios
-from contexto.Signo import Signo
 from datos.ListaDeSignos import ListaDeSignos
 import getpass
 import hashlib
@@ -580,7 +579,7 @@ class SetUpSimulador:
         print('+---------------------------------------------+')
         print('|      MÁXIMO         |       MINIMO         |')
         print('+---------------------------------------------+')
-        print('+        ' + str(signo.max) + '           |         ' + str(signo.max) + '         |' )
+        print('+        ' + str(signo.max) + '           |         ' + str(signo.max) + '         |')
         print('+---------------------------------------------+')
         max = self.readInt("Ingrese máximo: ")
         min = self.readInt("Ingrese mínimo: ")
