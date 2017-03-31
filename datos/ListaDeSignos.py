@@ -35,16 +35,16 @@ class ListaDeSignos():
         signo.max = pSigno[3]
         return signo
 
-    def agregarSigno(self, pSigno):
+    def actualizarSigno(self, pSigno):
         cn = Conexion()
         cn.abrir()
         cn.ejecutaSQL("update SignosVitales set min= " + str(pSigno.min) + ", max= " + str(pSigno.max) + " where idSigno = " + str(pSigno.idSigno))
         cn.cerrar()
 
-    def actualizarSigno(self, pSigno):
+    def agregarSigno(self, pSigno):
         cn = Conexion()
         cn.abrir()
-        cn.ejecutaSQL("update SignosVitales(descripcion, min, " +
+        cn.ejecutaSQL("insert into SignosVitales(descripcion, min, " +
                       "max) values ('" + pSigno.descripcion + "', " +
                       str(pSigno.min) + ", " + str(pSigno.max) + ")")
         cn.cerrar()

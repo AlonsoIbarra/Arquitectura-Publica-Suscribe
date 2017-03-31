@@ -84,6 +84,8 @@ from contexto.Grupo import Grupo as GrupoElemento
 from datos.ListaDeGrupos import ListaDeGrupos
 from contexto.Usuario import Usuario
 from datos.ListaDeUsuarios import ListaDeUsuarios
+from contexto.Signo import Signo
+from datos.ListaDeSignos import ListaDeSignos
 import getpass
 import hashlib
 import time
@@ -504,6 +506,7 @@ class SetUpSimulador:
         raw_input()
 
     def menuSignosVitales(self):
+        ls = ListaDeSignos()
         while True:
             os.system('clear')
             print('')
@@ -521,26 +524,38 @@ class SetUpSimulador:
             op = self.readInt("Ingrese opción: ")
 
             if op == 1:
-                print('')
-                temp = self.readInt("Ingrese Temperatura: ")
-                self.actualizarSV(id, temp)
-                print "temperatura..."
+                self.ActualizarTemperatura(ls)
             elif op == 2:
-                temp = self.readInt("Ingrese Presión: ")
-                self.actualizarSV(id, temp)
-                print "presión..."
+                pass
             elif op == 3:
-                temp = self.readInt("Ingrese Ritmo Cardiaco: ")
-                self.actualizarSV(id, temp)
-                print "ritmo cardiaco..."
+                pass
             elif op == 6:
                 print "regresando..."
                 break
             else:
                 pass
 
-    def actualizarSV(self, id, value):
-        pass
+    def ActualizarTemperatura(self, ls):
+        try:
+            signo = ls.obtenerSignoPorDescripcion('Temperatura')
+        except:
+            print ('Registro no encontrado en base de datos.')
+            return False
+        print('+---------------------------------------------+')
+        print('|      MÁXIMO         |       MINIMO         |')
+        print('+---------------------------------------------+')
+        print('+        ' + str(signo.max) + '           |         ' + str(signo.max) + '         |' )
+        print('+---------------------------------------------+')
+        max = self.readInt("Ingrese máximo: ")
+        min = self.readInt("Ingrese mínimo: ")
+        signo.max = max
+        signo.min = min
+        if (ls.actualizarSigno(signo)):
+            print ('Valores de temperatura actualizos correctamente.')
+            return True
+        else:
+            print ('Valores de temperatura no actualizos.')
+            return True
 
     def iniciarSimulacion(self):
         lista = ListaDeMiembros()
