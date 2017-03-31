@@ -383,19 +383,7 @@ class SetUpSimulador:
     def agregarMiembros(self, lu):
         os.system('clear')
         nombre = raw_input('Ingresa el nombre del usuario: ')
-        try:
-            usuario = lu.obtenerUsuarioPorNombre(nombre)
-        except:
-            usuario = None
-        if isinstance(usuario, Usuario):
-            print ('El usuario ya esta registrado.')
-            raw_input()
-            if str(raw_input('Deseas registrar otro usuario? s/n  ')) == str('s'):
-                return self.agregarUsuario(lu)
-            else:
-                return False
-        else:
-            usuario = Usuario()
+        usuario = Usuario()
         pwd = getpass.getpass('Ingresa su contraseña: ')
         tipo = self.readInt('Ingresa el tipo de usuario [Administrador : 1 , Operador : 2 ] ')
         usuario.nombre = nombre
