@@ -193,7 +193,6 @@ class SetUpSimulador:
                 print "iniciando simulación..."
                 self.iniciarSimulacion([])
             elif op == 2:
-                print "saliendo..."
                 self.iniciarSimulacionRemota()
             elif op == 3:
                 print "saliendo..."
@@ -201,14 +200,6 @@ class SetUpSimulador:
                 break
             else:
                 pass
-
-    def iniciarSimulacionRemota(self):
-        ipRabbit = raw_input('Ingrese IP remota del servidor de RabbitMQ ')
-        usuarioRabbit = raw_input('Ingrese nomrbe de usuario de RabbitMQ ')
-        pswRabbit = raw_input('Ingrese contraseña de servidor de RabbitMQ ')
-        access = [ipRabbit, usuarioRabbit, pswRabbit]
-        self.iniciarSimulacion(access)
-        return True
 
     def menuAdministrador(self):
         vu = VistaUsuarios()
@@ -234,7 +225,9 @@ class SetUpSimulador:
             print('+---------------------------------------------+')
             print('|  6.-  INICIAR SIMULACIÓN                    |')
             print('+---------------------------------------------+')
-            print('|  7.-  SALIR DE SIMULADOR                    |')
+            print('|  7.-  INICIAR SIMULADOR REMOTO              |')
+            print('+---------------------------------------------+')
+            print('|  8.-  SALIR DE SIMULADOR                    |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
@@ -251,11 +244,21 @@ class SetUpSimulador:
                 print "iniciando simulación..."
                 self.iniciarSimulacion([])
             elif op == 7:
+                self.iniciarSimulacionRemota()
+            elif op == 8:
                 print "saliendo..."
                 os.system('clear')
                 break
             else:
                 pass
+
+    def iniciarSimulacionRemota(self):
+        ipRabbit = raw_input('Ingrese IP remota del servidor de RabbitMQ ')
+        usuarioRabbit = raw_input('Ingrese nomrbe de usuario de RabbitMQ ')
+        pswRabbit = raw_input('Ingrese contraseña de servidor de RabbitMQ ')
+        access = [ipRabbit, usuarioRabbit, pswRabbit]
+        self.iniciarSimulacion(access)
+        return True
 
     def iniciarSimulacion(self, datosRabbitMQ):
         lista = ListaDeMiembros()
