@@ -26,25 +26,30 @@ class VistaSignosVitales():
             op = self.readInt("Ingrese opción: ")
 
             if op == 1:
-                self.ActualizarTemperatura(ls)
+                self.actualizarSignoVital(ls, "Temperatura")
             elif op == 2:
-                pass
+                self.actualizarSignoVital(ls, "Presion")
             elif op == 3:
-                pass
+                self.actualizarSignoVital(ls, "Ritmo")
             elif op == 6:
                 print "regresando..."
                 break
             else:
                 pass
 
-    def ActualizarTemperatura(self, ls):
+    def actualizarSignoVital(self, ls, pSigno):
+        print (str(pSigno))
         try:
-            signo = ls.obtenerSignoPorDescripcion('Temperatura')
+            signo = ls.obtenerSignoPorDescripcion(str(pSigno))
         except:
-            print ('Registro no encontrado en base de datos.')
-            return False
+            signo = Signo()
+            signo.descripcion = str(pSigno)
+            signo.max = -1
+            signo.min = -1
+            ls.agregarSigno(signo)
+            signo = ls.obtenerSignoPorDescripcion(str(pSigno))
         print('+---------------------------------------------+')
-        print('|      MÁXIMO         |       MINIMO         |')
+        print('|      MÁXIMO         |       MÍNIMO         |')
         print('+---------------------------------------------+')
         print('+        ' + str(signo.max) + '           |         ' + str(signo.max) + '         |' )
         print('+---------------------------------------------+')
