@@ -77,7 +77,7 @@ from vistas.VistaUsuarios import VistaUsuarios
 from vistas.VistaGrupos import VistaGrupos
 from vistas.VistaMedicamentos import VistaMedicamentos
 from vistas.VistaSignosVitales import VistaSignosVitales
-# from vistas.VistaMiembros import VistaMiembros
+from vistas.VistaMiembros import VistaMiembros
 from contexto.Usuario import Usuario
 from datos.ListaDeUsuarios import ListaDeUsuarios
 from sensores.SensorTemperatura import SensorTemperatura
@@ -85,6 +85,7 @@ from sensores.SensorRitmoCardiaco import SensorRitmoCardiaco
 from sensores.SensorPresion import SensorPresion
 from sensores.SensorAcelerometro import SensorAcelerometro
 from datos.ListaDeMiembros import ListaDeMiembros
+from datos.ListaDeSignos import ListaDeSignos
 import getpass
 import hashlib
 import time
@@ -138,7 +139,6 @@ class SetUpSimulador:
         print('')
         raw_input('presiona enter para continuar: ')
         self.login()
-        self.menuAdministrador()
         return True
 
     def login(self):
@@ -183,19 +183,22 @@ class SetUpSimulador:
             print('+---------------------------------------------+')
             print('|                 MENÚ INICIAL                |')
             print('+---------------------------------------------+')
-            print('|  1.-  INICIAR SIMULACIÓN                    |')
+            print('|  1.-  INICIAR SIMULACIÓN LOCAL              |')
             print('+---------------------------------------------+')
-            print('|  2.-  INICIAR SIMULADOR REMOTO              |')
+            print('|  2.-  INICIAR SENSORES REMOTOS              |')
             print('+---------------------------------------------+')
-            print('|  3.-  SALIR DE SIMULADOR                    |')
+            print('|  3.-  INICIAR MANAGERS REMOTOS              |')
+            print('+---------------------------------------------+')
+            print('|  4.-  SALIR DE SIMULADOR                    |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
-                print "iniciando simulación..."
-                self.iniciarSimulacion([])
+                self.iniciarSimulacion(0)
             elif op == 2:
-                self.iniciarSimulacionRemota()
+                self.iniciarSimulacion(1)
             elif op == 3:
+                self.iniciarSimulacion(2)
+            elif op == 4:
                 print "saliendo..."
                 os.system('clear')
                 break
@@ -207,7 +210,7 @@ class SetUpSimulador:
         vg = VistaGrupos()
         vm = VistaMedicamentos()
         vsv = VistaSignosVitales()
-        # vmi = VistaMiembros()
+        vmi = VistaMiembros()
         while True:
             os.system('clear')
             print('')
@@ -224,11 +227,13 @@ class SetUpSimulador:
             print('+---------------------------------------------+')
             print('|  5.-  GESTIÓN DE SIGNOS VITALES             |')
             print('+---------------------------------------------+')
-            print('|  6.-  INICIAR SIMULACIÓN                    |')
+            print('|  6.-  INICIAR SIMULACIÓN LOCAL              |')
             print('+---------------------------------------------+')
-            print('|  7.-  INICIAR SIMULADOR REMOTO              |')
+            print('|  7.-  INICIAR SENSORES REMOTOS              |')
             print('+---------------------------------------------+')
-            print('|  8.-  SALIR DE SIMULADOR                    |')
+            print('|  8.-  INICIAR MANAGERS REMOTOS              |')
+            print('+---------------------------------------------+')
+            print('|  9.-  SALIR DE SIMULADOR                    |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
@@ -243,32 +248,51 @@ class SetUpSimulador:
                 vsv.menuSignosVitales()
             elif op == 6:
                 print "iniciando simulación..."
-                self.iniciarSimulacion([])
+                self.iniciarSimulacion(0)
             elif op == 7:
-                self.iniciarSimulacionRemota()
+                self.iniciarSimulacion(1)
             elif op == 8:
+                self.iniciarSimulacion(2)
+            elif op == 9:
                 print "saliendo..."
                 os.system('clear')
                 break
             else:
                 pass
 
-    def iniciarSimulacionRemota(self):
+    def __pedirDatosRabbitMQRemoto(self):
         ipRabbit = raw_input('Ingrese IP remota del servidor de RabbitMQ ')
-        usuarioRabbit = raw_input('Ingrese nomrbe de usuario de RabbitMQ ')
+        if ipRabbit == '':
+            return []
+        usuarioRabbit = raw_input('Ingrese nombre de usuario de RabbitMQ ')
+        if usuarioRabbit == '':
+            return []
         pswRabbit = raw_input('Ingrese contraseña de servidor de RabbitMQ ')
+        if pswRabbit == '':
+            return []
         access = [ipRabbit, usuarioRabbit, pswRabbit]
-        self.iniciarSimulacion(access)
-        return True
+        return access
 
-    def iniciarSimulacion(self, datosRabbitMQ):
+    def iniciarSimulacion(self, opt):
+        datosRabbitMQ = []
+        if int(opt) > 0:
+            datosRabbitMQ = self.__pedirDatosRabbitMQRemoto()
+            if datosRabbitMQ == []:
+                return False
         lista = ListaDeMiembros()
         for usuario in lista.obtenerMiembros():
             self.create_temperature_sensor(usuario.nombres, datosRabbitMQ)
             self.create_heart_rate_sensor(usuario.nombres, datosRabbitMQ)
             self.create_preasure_sensor(usuario.nombres, datosRabbitMQ)
             self.create_acelerometer(usuario.nombres, datosRabbitMQ)
-        self.run_simulator()
+        if opt == 0:
+            self.run_simulator()
+        elif opt == 1:
+            self.start_publishers()
+        elif opt == 2:
+            self.start_consumers(datosRabbitMQ)
+        else:
+            pass
 
     def create_temperature_sensor(self, nombre, datosRabbitMQ):
         s = SensorTemperatura(nombre, datosRabbitMQ)
@@ -282,21 +306,31 @@ class SetUpSimulador:
         s = SensorRitmoCardiaco(nombre, datosRabbitMQ)
         self.sensores.append(s)
 
-    def run_simulator(self):
-        self.start_consumers()
-        self.start_publishers()
-
-    def create_acelerometer(self, nombre):
-        s = SensorAcelerometro(nombre)
+    def create_acelerometer(self, nombre, datosRabbitMQ):
+        s = SensorAcelerometro(nombre, datosRabbitMQ)
         self.sensores.append(s)
 
-    def start_consumers(self):
+    def run_simulator(self):
+        self.start_consumers([])
+        self.start_publishers()
+
+    def start_consumers(self, dataRabbitMQ):
+        ls = ListaDeSignos()
+        try:
+            temperatura = ls.obtenerSignoPorDescripcion('Temperatura')
+            ritmo = ls.obtenerSignoPorDescripcion('Ritmo')
+            presion = ls.obtenerSignoPorDescripcion('Presion')
+        except:
+            print ('No se tienen registrados todos los valores máximos de signos vitales, seleccione opción 5 para actualizar valores.')
+            raw_input()
+            return False
+        argumentos = " ".join(dataRabbitMQ)
         os.system(
-            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/TemperaturaManager.py " + str(self.temperatura) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/TemperaturaManager.py " + str(temperatura.max) + "  " + str(argumentos) + " ; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/RitmoCardiacoManager.py " + str(self.ritmo_cardiaco) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/RitmoCardiacoManager.py " + str(ritmo.max) + "  " + str(argumentos) + " ; sleep 5 \"'")
         os.system(
-            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/PresionManager.py " + str(self.presion) + "; sleep 5 \"'")
+            "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/PresionManager.py " + str(presion.max) + "  " + str(argumentos) + " ; sleep 5 \"'")
         os.system(
             "gnome-terminal -e 'bash -c \"python " + os.path.abspath("\managers") + "/AcelerometroManager.py ; sleep 5 \"'")
         os.system(

@@ -89,10 +89,17 @@ class PresionManager:
         self.values_parameters = sys.argv[1]
         self.setUpManager(self.values_parameters)
         #   +--------------------------------------------------------------------------------------+
-        #   | La siguiente linea permite realizar la conexión con el servidor que aloja a RabbitMQ |
+        #   | La siguientes lineas permiten realizar la conexión con el servidor que aloja a RabbitMQ |
         #   +--------------------------------------------------------------------------------------+
-        connection = pika.BlockingConnection(pika.ConnectionParameters(
-            host='localhost'))
+        try:
+            ip = sys.argv[2]
+            usuario = sys.argv[3]
+            contrasena = sys.argv[4]
+            credentials = pika.PlainCredentials(usuario, contrasena)
+            parameters = pika.ConnectionParameters(ip, 5672, '/',credentials)
+            connection = pika.BlockingConnection(parameters)
+        except:
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
         #   +----------------------------------------------------------------------------------------+
         #   | La siguiente linea permite definir el tipo de intercambio y de que cola recibirá datos |

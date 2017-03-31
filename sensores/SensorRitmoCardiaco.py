@@ -71,10 +71,17 @@ import random
 class SensorRitmoCardiaco:
     nombre = None
     id = 0
+    ip = 'localhost'
+    usuario = None
+    contrasena = None
 
-    def __init__(self, nombre):
+    def __init__(self, nombre, datosRabbitMQ):
         self.nombre = nombre
         self.id = int(self.set_id())
+        if datosRabbitMQ != []:
+            self.ip = datosRabbitMQ[0]
+            self.usuario = datosRabbitMQ[1]
+            self.contrasena = datosRabbitMQ[2]
 
     def set_id(self):
         return random.randint(1000, 5000)
@@ -86,8 +93,12 @@ class SensorRitmoCardiaco:
         #   +--------------------------------------------------------------------------------------+
         #   | La siguiente linea permite realizar la conexión con el servidor que aloja a RabbitMQ |
         #   +--------------------------------------------------------------------------------------+
-        connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host='localhost'))
+        if self.ip == 'localhost':
+            connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+        else:
+            credentials = pika.PlainCredentials(self.usuario,self.contrasena)
+            parameters = pika.ConnectionParameters(self.ip, 5672, '/',credentials)
+            connection = pika.BlockingConnection(parameters)
         channel = connection.channel()
         #   +----------------------------------------------------------------------------------------+
         #   | La siguiente linea permite definir el tipo de intercambio y de que cola recibirá datos |
