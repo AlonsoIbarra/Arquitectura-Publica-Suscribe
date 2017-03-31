@@ -136,7 +136,8 @@ class SetUpSimulador:
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
-        self.login()
+        #self.login()
+        self.menuAdministrador()
         return True
 
     def login(self):
@@ -209,29 +210,33 @@ class SetUpSimulador:
             print('+---------------------------------------------+')
             print('|  1.-  GESTIÓN DE USUARIOS                   |')
             print('+---------------------------------------------+')
-            print('|  2.-  GESTIÓN DE GRUPOS                     |')
+            print('|  2.-  GESTIÓN DE MIEMBROS                   |')
             print('+---------------------------------------------+')
-            print('|  3.-  GESTIÓN DE MEDICAMENTOS               |')
+            print('|  3.-  GESTIÓN DE GRUPOS                     |')
             print('+---------------------------------------------+')
-            print('|  4.-  GESTIÓN DE SIGNOS VITALES             |')
+            print('|  4.-  GESTIÓN DE MEDICAMENTOS               |')
             print('+---------------------------------------------+')
-            print('|  5.-  INICIAR SIMULACIÓN                    |')
+            print('|  5.-  GESTIÓN DE SIGNOS VITALES             |')
             print('+---------------------------------------------+')
-            print('|  6.-  SALIR DE SIMULADOR                    |')
+            print('|  6.-  INICIAR SIMULACIÓN                    |')
+            print('+---------------------------------------------+')
+            print('|  7.-  SALIR DE SIMULADOR                    |')
             print('+---------------------------------------------+')
             op = self.readInt("Ingrese opción: ")
             if op == 1:
                 vu.menuUsuarios()
             elif op == 2:
-                vg.menuGrupos()
+                pass
             elif op == 3:
-                vm.menuMedicamentos()
+                vg.menuGrupos()
             elif op == 4:
-                vsv.menuSignosVitales()
+                vm.menuMedicamentos()
             elif op == 5:
+                vsv.menuSignosVitales()
+            elif op == 6:
                 print "iniciando simulación..."
                 self.iniciarSimulacion()
-            elif op == 6:
+            elif op == 7:
                 print "saliendo..."
                 os.system('clear')
                 break

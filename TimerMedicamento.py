@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from datos.Grupo import Grupo
 from datos.ListaDeGrupos import ListaDeGrupos
 import threading
