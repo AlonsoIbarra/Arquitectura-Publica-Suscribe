@@ -8,6 +8,15 @@ class ListaDeSignos():
     def __init__(self):
         pass
 
+    def obtenerSignoPorId(self, pSigno):
+        cn = Conexion()
+        cn.abrir()
+        s = cn.ejecutaBusqueda("select idSigno, descripcion, min, max " +
+                               "from SignosVitales where idSigno = " + str(pSigno.idSigno) + "")
+        cn.cerrar()
+        signo = self.__mapearSigno(s)
+        return signo
+
     def obtenerSignoPorDescripcion(self, pDescripcion):
         cn = Conexion()
         cn.abrir()
@@ -29,10 +38,17 @@ class ListaDeSignos():
     def agregarSigno(self, pSigno):
         cn = Conexion()
         cn.abrir()
-        cn.ejecutaSQL("insert into SignosVitales(descripcion, min, " +
+        cn.ejecutaSQL("update SignosVitales set min= " + str(pSigno.min) + ", max= " + str(pSigno.max) + " where idSigno = " + str(pSigno.idSigno))
+        cn.cerrar()
+
+    def actualizarSigno(self, pSigno):
+        cn = Conexion()
+        cn.abrir()
+        cn.ejecutaSQL("update SignosVitales(descripcion, min, " +
                       "max) values ('" + pSigno.descripcion + "', " +
                       str(pSigno.min) + ", " + str(pSigno.max) + ")")
         cn.cerrar()
+        return True
 
     def obtenerSignos(self):
         cn = Conexion()
