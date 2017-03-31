@@ -22,6 +22,14 @@ class ListaDeMiembros():
         cn.cerrar()
         return True
 
+    def agregarMiembroGrupo(self, idMiembro, idGrupo, dosis):
+        cn = Conexion()
+        cn.abrir()
+        cn.ejecutaSQL("INSERT INTO GrupoMiembros (idGrupo,idMiembro,dosis) " +
+                      "VALUES ('" + str(idGrupo) + "','" + str(idMiembro) + "','" + dosis + "')")
+        cn.cerrar()
+        return True
+
     def obtenerMiembros(self):
         cn = Conexion()
         cn.abrir()
@@ -42,6 +50,18 @@ class ListaDeMiembros():
 
         cn.cerrar()
         return self.__mapearEnMiembro(miembro)
+
+    def obtenerMiembroGrupo(self):
+        cn = Conexion()
+        cn.abrir()
+        resultado = cn.ejecutaSELECT("SELECT g.idGrupo, m.nombres || ' ' || m.apellidos as nombre,me.descripcion, dosis " +
+                                        "FROM GrupoMiembros gm " +
+                                        "inner join Miembros m on m.idMiembro=gm.idMiembro " +
+                                        "inner join Grupos g on g.idGrupo=gm.idGrupo " +
+                                        "inner join Medicamentos me on me.idMedicamento=g.idMedicamento order by g.idGrupo")
+
+        cn.cerrar()
+        return resultado
 
     def eliminarMiembro(self, pMiembro):
         cn = Conexion()
@@ -66,19 +86,3 @@ class ListaDeMiembros():
 
         return u
 
-    def __mapearMiembrosenLista(self, resultado):
-        ListaDeMiembros = []
-        for r in resultado:
-            u = Miembro()
-            u.idMiembro = r[0]
-            u.nombres = r[1]
-            u.apellidos = r[2]
-            u.edad = r[3]
-            u.IDsTemperatura = r[4]
-            u.IDsAcelerometro = r[5]
-            u.IDsRitmoCardiaco = r[6]
-            u.IDsPresion = r[7]
-
-            ListaDeMiembros.append(u)
-
-        return ListaDeMiembros
