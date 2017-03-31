@@ -20,6 +20,7 @@ class ListaDeMiembros():
                       str(pmiembro.IDsRitmoCardiaco) + ", " +
                       str(pmiembro.IDsPresion) + ")")
         cn.cerrar()
+        return True
 
     def obtenerMiembros(self):
         cn = Conexion()
@@ -41,6 +42,16 @@ class ListaDeMiembros():
 
         cn.cerrar()
         return self.__mapearEnMiembro(miembro)
+
+    def eliminarMiembro(self, pMiembro):
+        cn = Conexion()
+        cn.abrir()
+
+        cn.ejecutaSQL("delete from Miembros  where idMiembro = " +
+                      str(pMiembro.idMiembro) + "")
+
+        cn.cerrar()
+        return True
 
     def __mapearEnMiembro(self, pMiembro):
         u = Miembro()

@@ -3,11 +3,12 @@
 import os
 import getpass
 import hashlib
-from contexto.Usuario import Usuario
-from datos.ListaDeUsuarios import ListaDeUsuarios
+import random
+from contexto.Miembro import Miembro
+from datos.ListaDeMiembros import ListaDeMiembros
 
 
-class VistaUsuarios():
+class VistaMiembros():
 
     def menuMiembros(self):
         lu = ListaDeMiembros()
@@ -54,15 +55,19 @@ class VistaUsuarios():
 
     def agregarMiembros(self, lu):
         os.system('clear')
-        nombre = raw_input('Ingresa el nombre del usuario: ')
-        usuario = Usuario()
-        pwd = getpass.getpass('Ingresa su contraseña: ')
-        tipo = self.readInt('Ingresa el tipo de usuario [Administrador : 1 , Operador : 2 ] ')
-        usuario.nombre = nombre
-        usuario.contrasena = hashlib.sha224(pwd).hexdigest()
-        usuario.tipo = tipo
-        if lu.agregarUsuario(usuario):
-            print ('Usuario agregado exitosamente.')
+        nombre = raw_input('Ingresa los nombres del miembro: ')
+        apellidos = raw_input('Ingresa los apellidos del miembro: ')
+        edad = raw_input('Ingresa la edad del miembro: ')
+        miembro = Miembro()
+        miembro.nombres = nombre
+        miembro.apellidos = apellidos
+        miembro.edad = int(edad)
+        miembro.IDsTemperatura = random.randint(1000, 9999)
+        miembro.IDsAcelerometro = random.randint(1000, 9999)
+        miembro.IDsRitmoCardiaco = random.randint(1000, 9999)
+        miembro.IDsPresion = random.randint(1000, 9999)
+        if lu.agregarMiembro(miembro):
+            print ('Miembro agregado exitosamente.')
             raw_input()
             return True
         else:
@@ -71,28 +76,35 @@ class VistaUsuarios():
             return False
 
     def eliminarMiembros(self, lu):
-        nombre = raw_input("Ingrese nombre del usuario: ")
+        id = raw_input("Ingrese id del miembro: ")
         try:
-            usuario = lu.obtenerUsuarioPorNombre(nombre)
+            miembro = lu.obtenerMiembroPorId(id)
         except:
-            print ('No se localizó el registro de ' + nombre)
+            print ('No se localizó el registro con id ' + str(id))
             raw_input()
             return False
-        if str(raw_input('Confirma eliminar a ' + nombre + '? s/n  ')) == str('s'):
+        if str(raw_input('Confirma eliminar a ' + miembro.nombres + '? s/n  ')) == str('s'):
             try:
-                if(lu.eliminarUsuario(usuario)):
-                    print ('Usuario ' + nombre + ' eliminado.')
+                if(lu.eliminarMiembro(miembro)):
+                    print ('miembro ' + miembro.nombres + ' eliminado.')
                     raw_input()
                     return True
                 else:
-                    print ('No se pudo eliminar a ' + nombre + '.')
+                    print ('No se pudo eliminar a ' + miembro.nombre + '.')
                     raw_input()
                     return False
             except:
-                print ('No se pudo eliminar a ' + nombre + '.')
+                print ('No se pudo eliminar a ' + miembro.nombre + '.')
                 raw_input()
                 return False
         else:
             print ("Operacion cancelada")
             raw_input()
 
+    def readInt(self, msg):
+        try:
+            return int(raw_input(msg))
+        except ValueError:
+            print "ERROR: Valor no numerico entero..."
+            raw_input('')
+            return -1
