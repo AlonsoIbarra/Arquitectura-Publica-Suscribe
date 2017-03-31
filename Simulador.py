@@ -137,7 +137,8 @@ class SetUpSimulador:
         print('+----------------------+----------------------+')
         print('')
         raw_input('presiona enter para continuar: ')
-        self.login()
+        #self.login()
+        self.menuAdministrador()
         return True
 
     def login(self):
@@ -337,7 +338,7 @@ class SetUpSimulador:
             raw_input()
 
     def menuMiembros(self):
-        lu = ListaDeUsuarios()
+        lu = ListaDeMiembros()
         while True:
             os.system('clear')
             print('')
@@ -357,16 +358,83 @@ class SetUpSimulador:
             op = self.readInt("Ingrese opción: ")
 
             if op == 1:
-                self.agregarUsuario(lu)
+                self.agregarMiembros(lu)
             elif op == 2:
-                self.eliminarUsuario(lu)
+                self.eliminarMiembros(lu)
             elif op == 3:
-                self.listarUsuarios(lu)
+                self.listarMiembros(lu)
             elif op == 6:
                 print "regresando..."
                 break
             else:
                 pass
+
+    def listarMiembros(self, lu):
+        os.system('clear')
+        print('+-------------------------------------------------------+')
+        print('|  ID  |  NOMBRES         |  APELLIDOS        |  EDAD   |')
+        for u in lu.obtenerMiembros():
+            print('+---------------------------------------------------+')
+            print('|  ' + str(u.idMiembro) + '  | ' + str(u.nombres) + ' | ' + str(u.apellidos) + ' | ' + str(u.edad) + ' | ')
+        print('+-------------------------------------------------------+')
+        raw_input()
+        return True
+
+    def agregarMiembros(self, lu):
+        os.system('clear')
+        nombre = raw_input('Ingresa el nombre del usuario: ')
+        try:
+            usuario = lu.obtenerUsuarioPorNombre(nombre)
+        except:
+            usuario = None
+        if isinstance(usuario, Usuario):
+            print ('El usuario ya esta registrado.')
+            raw_input()
+            if str(raw_input('Deseas registrar otro usuario? s/n  ')) == str('s'):
+                return self.agregarUsuario(lu)
+            else:
+                return False
+        else:
+            usuario = Usuario()
+        pwd = getpass.getpass('Ingresa su contraseña: ')
+        tipo = self.readInt('Ingresa el tipo de usuario [Administrador : 1 , Operador : 2 ] ')
+        usuario.nombre = nombre
+        usuario.contrasena = hashlib.sha224(pwd).hexdigest()
+        usuario.tipo = tipo
+        if lu.agregarUsuario(usuario):
+            print ('Usuario agregado exitosamente.')
+            raw_input()
+            return True
+        else:
+            print ('No se agrego el registro, intente nuevamente.')
+            raw_input()
+            return False
+
+    def eliminarMiembros(self, lu):
+        nombre = raw_input("Ingrese nombre del usuario: ")
+        try:
+            usuario = lu.obtenerUsuarioPorNombre(nombre)
+        except:
+            print ('No se localizó el registro de ' + nombre)
+            raw_input()
+            return False
+        if str(raw_input('Confirma eliminar a ' + nombre + '? s/n  ')) == str('s'):
+            try:
+                if(lu.eliminarUsuario(usuario)):
+                    print ('Usuario ' + nombre + ' eliminado.')
+                    raw_input()
+                    return True
+                else:
+                    print ('No se pudo eliminar a ' + nombre + '.')
+                    raw_input()
+                    return False
+            except:
+                print ('No se pudo eliminar a ' + nombre + '.')
+                raw_input()
+                return False
+        else:
+            print ("Operacion cancelada")
+            raw_input()
 
     def menuGrupos(self):
         lg = ListaDeGrupos()
