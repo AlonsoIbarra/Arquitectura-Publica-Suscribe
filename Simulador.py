@@ -234,7 +234,7 @@ class SetUpSimulador:
             if op == 1:
                 vu.menuUsuarios()
             elif op == 2:
-                pass
+                vmi.menuMiembros()
             elif op == 3:
                 vg.menuGrupos()
             elif op == 4:

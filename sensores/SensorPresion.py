@@ -87,8 +87,11 @@ class SensorPresion:
         #   +--------------------------------------------------------------------------------------+
         #   | La siguiente linea permite realizar la conexión con el servidor que aloja a RabbitMQ |
         #   +--------------------------------------------------------------------------------------+
-        connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host='localhost'))
+        credentials = pika.PlainCredentials('usuario','usuario')
+        parameters = pika.ConnectionParameters('192.168.0.28', 5672, '/',credentials)
+        connection = pika.BlockingConnection(parameters)
+        #sconnection = pika.BlockingConnection(
+        #pika.ConnectionParameters(host='localhost'))
         channel = connection.channel()
         #   +----------------------------------------------------------------------------------------+
         #   | La siguiente linea permite definir el tipo de intercambio y de que cola recibirá datos |
@@ -111,3 +114,8 @@ class SensorPresion:
 
     def simulate_data(self):
         return random.randint(int(100), int(200))
+
+
+#sensor = SensorPresion('salkfda')
+#for i in range(0,100):
+#    sensor.start_service()
